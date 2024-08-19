@@ -60,6 +60,13 @@ class TeacherCourseList (generics.ListAPIView):
         teacher = models.Teacher.objects.get(pk=teacher_id)
         return models.Course.objects.filter(teacher = teacher)
 
+
+# fetch the specific Teacher Course
+class TeacherCourseDetail ( generics.RetrieveUpdateDestroyAPIView):
+    queryset = models.Course.objects.all()
+    serializer_class = CourseSerializer
+    
+
 # Chapter Lists
 class ChapterList (generics.ListCreateAPIView):
     queryset = models.Chapter.objects.all()
