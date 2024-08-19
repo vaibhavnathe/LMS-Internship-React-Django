@@ -36,6 +36,7 @@ import { PopularTeachers } from './PopularTeachers'
 import { CategoryCourses } from './CategoryCourses'
 import { CourseChapters } from './Teacher/CourseChapters'
 import { EditChapter } from './Teacher/EditChapter'
+import EditCourse from './Teacher/EditCourse'
 
 
 
@@ -73,6 +74,7 @@ export const Main = () => {
         <Route path='/teacher-detail/:teacher_id' element={<TeacherDetail/>}/>
         <Route path='/teacher-logout' element={<TeacherLogout/>}/>
         <Route path='/add-chapter/:course_id' element={<AddChapter/>}/>
+        <Route path='/edit-course/:course_id' element={<EditCourse/>}/>
 
         {/* List Pages */}
         <Route path='/all-courses' element={<AllCourses/>}/>
