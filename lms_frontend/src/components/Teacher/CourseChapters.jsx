@@ -87,7 +87,7 @@ export const CourseChapters = () => {
 
                 <section className='col-md-9'>
                     <div className="card">
-                        <h5 className='card-header'>All Chapters ({totalResult})</h5>
+                        <h5 className='card-header'>All Chapters ({totalResult}) <Link className='btn btn-success btn-sm float-end' to={`/add-chapter/${course_id}`}>Add Chapter</Link></h5>
                         <div className="card-body">
                             <table className="table table-bordered">
                                 <thead>
