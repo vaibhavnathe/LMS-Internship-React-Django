@@ -38,14 +38,41 @@ export const CourseChapters = () => {
     }, [])
 
     // Delete chapter data
-    const handleDeleteClick = () => {
-        Swal.fire({
+    const handleDeleteClick = async (chapter_id) => {
+        const result = await Swal.fire({
             title: 'Confirm',
             text: 'Are you sure you want to delete this data',
             icon: 'info',
             confirmButtonText: 'Continue',
-            showCancelButton : true
-        });
+            showCancelButton: true
+        })
+
+        if (result.isConfirmed) {
+            try {
+                const res = await axios.delete(`${baseUrl}/chapter/${chapter_id}`);
+
+                if (res) {
+                    Swal.fire("Success", "Data has been deleted!")
+                    try {
+                        const chapters = await axios.get(baseUrl + `/course-chapters/${course_id}`);
+                        if (chapters) {
+        
+                            setChapterData(chapters.data);
+                            setTotalResult(chapters.data.length);
+                        }
+                    }
+                    catch (error) {
+                        console.log(error);
+                    }
+                    
+                }
+
+            }
+            catch (error) {
+                Swal.fire("error", "Data has not been deleted!")
+            }
+
+        }
     }
 
     // console.log("'Chapter data : ", chapterData);
@@ -83,7 +110,7 @@ export const CourseChapters = () => {
                                                     <td>{chapter.remarks}</td>
                                                     <td>
                                                         <Link to={`/edit-chapter/${chapter.id}`} className='btn btn-info btn-sm'> {<FaEdit color='white' size={20} />}</Link>
-                                                        <button onClick={handleDeleteClick} to={`/delete-chapter/${chapter.id}`} className='btn btn-danger btn-sm ms-2'>{<MdDeleteForever color='white' size={20} />}</button>
+                                                        <button onClick={() => handleDeleteClick(chapter.id)} to={`/delete-chapter/${chapter.id}`} className='btn btn-danger btn-sm ms-2'>{<MdDeleteForever color='white' size={20} />}</button>
                                                     </td>
                                                 </tr>
                                             ))
