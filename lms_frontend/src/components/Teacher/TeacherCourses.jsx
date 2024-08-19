@@ -61,8 +61,11 @@ export default function TeacherCourses() {
                                                     <td><img src={course.featured_img} width={80} className='rounded' alt={course.title}/></td>
                                                     <td><Link to='/'> 320 </Link></td>
                                                     <td>
-                                                        <button className='btn btn-danger btn-sm '>Delete</button>
+                                                       
+                                                        <Link to={`/edit-course/${course.id}`}><button className='btn btn-info btn-md  '>Edit</button></Link>
                                                         <Link to={`/add-chapter/${course.id}`}><button className='btn btn-success btn-md  ms-2 '>Add Chapter</button></Link>
+                                                        <button className='btn btn-danger btn-md ms-2'>Delete</button>
+
                                                     </td>
                                                 </tr>
                                             ))
