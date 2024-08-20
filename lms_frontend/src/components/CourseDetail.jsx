@@ -54,7 +54,7 @@ export default function CourseDetail() {
                 <div className="col-8">
                     <h3>{courseData.title}</h3>
                     <p>{courseData.description}</p>
-                    <p className='fw-bold'>Course By: <Link to='/teacher-detail/1'>{courseData.teacher.full_name}</Link></p>
+                    <p className='fw-bold'>Course By: <Link to={`/teacher-detail/${courseData.teacher.id}`}>{courseData.teacher.full_name}</Link></p>
                     <p className='fw-bold'>Duration: 3 Hours 30 Minutes</p>
                     <p className='fw-bold'>Total Enrolled: 456 Students</p>
                     <p className='fw-bold'>Rating: 4.5/5</p>
@@ -125,7 +125,7 @@ export default function CourseDetail() {
             <h3 className=' pb-1 mb-4 mt-4'>
                 Related Courses
             </h3>
-            <div className='row mb-4'>
+            <div className='row mb-4 gap-2'>
                 {
                     relatedCourseData.length > 0 && (
                         relatedCourseData.map((rcourse, index) => (
