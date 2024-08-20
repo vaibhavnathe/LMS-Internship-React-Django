@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from rest_framework.views import APIView
+from rest_framework.generics import RetrieveAPIView
 from rest_framework.generics import  ListAPIView
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.response import Response
@@ -94,3 +95,9 @@ class CourseChapterList (generics.ListAPIView):
 class ChapterDetailView (generics.RetrieveUpdateDestroyAPIView):
     queryset = models.Chapter.objects.all()
     serializer_class = ChapterSerializer
+
+
+# Specific Course detail View
+class CourseDetailView (generics.RetrieveAPIView):
+    serializer_class = CourseSerializer
+    queryset = models.Course.objects.all()

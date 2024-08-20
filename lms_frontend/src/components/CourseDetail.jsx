@@ -1,22 +1,55 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import logo from '../assests/logo.jpeg'
+import axios from 'axios';
+
+const baseUrl = 'http://127.0.0.1:8000/api';
 
 export default function CourseDetail() {
 
     const { course_id } = useParams();
+
+    const [courseData, setCourseData] = useState(null);
+    const [chapterData, setChapterData] = useState([]);
+
+    useEffect(() => {
+        const fetchCourseData = async () => {
+            try {
+                const response = await axios.get(`${baseUrl}/course/${course_id}`);
+                if (response.data) {
+                    // console.log("CourseData: ", response.data.course_chapters);
+                    setCourseData(response.data);
+                    setChapterData(response.data.course_chapters);
+
+                }
+            }
+            catch (error) {
+                console.log("Error While Fetching Course Detail!");
+                console.log(error);
+            }
+        }
+        fetchCourseData();
+    }, [course_id])
+
+    console.log(courseData);
+    console.log(chapterData);
+
+    if (!courseData) {
+        return <div>Loading...</div>;
+    }
+
 
     return (
         <div className="container mt-3">
 
             <div className="row">
                 <div className="col-4">
-                    <img src={logo} className="img-thumbnail    " alt="Course Image" />
+                    <img src={courseData.featured_img} className="img-thumbnail    " alt={courseData.title} />
                 </div>
                 <div className="col-8">
-                    <h3>Course title</h3>
-                    <p>Using a combination of grid and utility classes, cards can be made horizontal in a mobile-friendly and responsive way. In the example below, we remove the grid gutters with .g-0 and use .col-md-* classes to make the card horizontal at the md breakpoint. Further adjustments may be needed depending on your card content.</p>
-                    <p className='fw-bold'>Course By: <Link to='/teacher-detail/1'>Teacher 1</Link></p>
+                    <h3>{courseData.title}</h3>
+                    <p>{courseData.description}</p>
+                    <p className='fw-bold'>Course By: <Link to='/teacher-detail/1'>{courseData.teacher.full_name}</Link></p>
                     <p className='fw-bold'>Duration: 3 Hours 30 Minutes</p>
                     <p className='fw-bold'>Total Enrolled: 456 Students</p>
                     <p className='fw-bold'>Rating: 4.5/5</p>
@@ -29,62 +62,57 @@ export default function CourseDetail() {
                     Course Videos
                 </h5>
                 <ul className="list-group list-group-flush">
+                    {
+                        (chapterData.length > 0) && (
+                            chapterData.map((chapter, index) => (
 
-                    <li className="list-group-item">
-                        Introduction
-                        <span className='float-end'>
-                            <span className='me-5'>1 Hour 30 Minutes</span>
-                            <button className="btn btn-sm btn-danger float-end" data-bs-toggle="modal" data-bs-target="#videoModal1"><i className="bi bi-youtube"></i></button>
-                        </span>
+                                <li className="list-group-item" key={index}>
+                                    {chapter.title}
 
-                        {/* <!-- Video Modal  --> */}
-                        <div className="modal fade" id="videoModal1" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                            <div className="modal-dialog modal-xl">
-                                <div className="modal-content">
-                                    <div className="modal-header">
-                                        <h1 className="modal-title fs-5" id="exampleModalLabel">Video 1</h1>
-                                        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </div>
-                                    <div className="modal-body">
-                                        <div className="ratio ratio-16x9">
-                                            <iframe src="https://www.youtube.com/embed/zpOULjyy-n8?rel=0" title="YouTube video" allowFullScreen></iframe>
+                                    <span className='float-end'>
+                                        <span className='me-5'>1 Hour 30 Minutes</span>
+                                        <button className="btn btn-sm btn-danger float-end" data-bs-toggle="modal" data-bs-target="#videoModal1"><i className="bi bi-youtube"></i></button>
+                                    </span>
+
+                                    {/* <!-- Video Modal  --> */}
+                                    <div className="modal fade" id="videoModal1" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div className="modal-dialog modal-xl">
+                                            <div className="modal-content">
+                                                <div className="modal-header">
+                                                    <h1 className="modal-title fs-5" id="exampleModalLabel">Video 1</h1>
+                                                    <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div className="modal-body">
+                                                    <div className="ratio ratio-16x9">
+                                                        {chapter.video ? (
+                                                        <iframe 
+                                                            src={chapter.video} 
+                                                            title={chapter.title} 
+                                                            allowFullScreen
+                                                        ></iframe>
+                                                        // <div>
+                                                        //     <video controls width="100%" height="auto"/>
+                                                        //     <source src={chapter.video} type='video/mp4' />
+                                                        // </div>
+                                                        ) : (
+                                                            <p>No video available</p>
+                                                        // 
+                                                        )}
+                                                        
+                                                    </div>
+                                                </div>
+
+                                            </div>
                                         </div>
                                     </div>
 
-                                </div>
-                            </div>
-                        </div> 
+
+                                </li>
+                            ))
+                        )
+                    }
 
 
-                    </li>
-                    <li className="list-group-item">
-                        Introduction
-                        <span className='float-end'>
-                            <span className='me-5'>1 Hour 30 Minutes</span>
-                            <button className="btn btn-sm btn-danger float-end"><i className="bi bi-youtube"></i></button>
-                        </span>
-                    </li>
-                    <li className="list-group-item">
-                        Introduction
-                        <span className='float-end'>
-                            <span className='me-5'>1 Hour 30 Minutes</span>
-                            <button className="btn btn-sm btn-danger float-end"><i className="bi bi-youtube"></i></button>
-                        </span>
-                    </li>
-                    <li className="list-group-item">
-                        Introduction
-                        <span className='float-end'>
-                            <span className='me-5'>1 Hour 30 Minutes</span>
-                            <button className="btn btn-sm btn-danger float-end"><i className="bi bi-youtube"></i></button>
-                        </span>
-                    </li>
-                    <li className="list-group-item">
-                        Introduction
-                        <span className='float-end'>
-                            <span className='me-5'>1 Hour 30 Minutes</span>
-                            <button className="btn btn-sm btn-danger float-end"><i className="bi bi-youtube"></i></button>
-                        </span>
-                    </li>
                 </ul>
             </div>
 
