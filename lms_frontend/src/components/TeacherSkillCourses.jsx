@@ -23,7 +23,7 @@ export const TeacherSkillCourses = () => {
             }
         }
         fetchCourseData();
-    }, [])
+    }, [skill_name, teacher_id])
 
 
     return (

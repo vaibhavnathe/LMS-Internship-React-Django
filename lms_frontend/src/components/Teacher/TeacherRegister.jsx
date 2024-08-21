@@ -60,6 +60,10 @@ export default function TeacherRegister() {
         }
     }
 
+    useEffect(() => {
+     document.title = "Teacher Register"    
+    })
+
     const teacherLoginStatus = localStorage.getItem('teacherLoginStatus');
     
     if(teacherLoginStatus){
