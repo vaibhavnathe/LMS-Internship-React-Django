@@ -15,6 +15,7 @@ export default function CourseDetail() {
     const [courseData, setCourseData] = useState(null);
     const [chapterData, setChapterData] = useState([]);
     const [relatedCourseData, setRelatedCourseData] = useState([]);
+    const [techList, setTechList] = useState([]);
 
     useEffect(() => {
         const fetchCourseData = async () => {
@@ -25,6 +26,7 @@ export default function CourseDetail() {
                     setCourseData(response.data);
                     setChapterData(response.data.course_chapters);
                     setRelatedCourseData(JSON.parse(response.data.related_videos));
+                    setTechList(response.data.tech_list);
                 }
             }
             catch (error) {
@@ -38,6 +40,7 @@ export default function CourseDetail() {
     // console.log(courseData);
     // console.log(chapterData);
     // console.log(relatedCourseData);
+    // console.log(techList);
 
     if (!courseData) {
         return <div>Loading...</div>;
@@ -55,6 +58,21 @@ export default function CourseDetail() {
                     <h3>{courseData.title}</h3>
                     <p>{courseData.description}</p>
                     <p className='fw-bold'>Course By: <Link to={`/teacher-detail/${courseData.teacher.id}`}>{courseData.teacher.full_name}</Link></p>
+                    {
+                        techList.length > 0 &&
+
+                        <p className='fw-bold' >Techs:
+                            {
+                                techList.map((tech, index) => (
+                                    <Link to={`/category/${tech.trim()}`} key={index} className='badge bg-warning ms-1 badge-pill text-dark'>
+                                        {tech} 
+                                    </Link>
+                                ))
+                            }
+                            
+                         </p>
+
+                    }
                     <p className='fw-bold'>Duration: 3 Hours 30 Minutes</p>
                     <p className='fw-bold'>Total Enrolled: 456 Students</p>
                     <p className='fw-bold'>Rating: 4.5/5</p>
@@ -96,7 +114,7 @@ export default function CourseDetail() {
                                                             //     allowFullScreen
                                                             // ></iframe>
                                                             <div>
-                                                                 <ReactPlayer url={chapter.video} controls={true} width="100%" height="100%" />
+                                                                <ReactPlayer url={chapter.video} controls={true} width="100%" height="100%" />
                                                                 {/* <video controls width="100%" height="auto"/>
                                                                 <source src={chapter.video} type='video/mp4' /> */}
                                                             </div>
@@ -132,8 +150,8 @@ export default function CourseDetail() {
                             <div className='col-md-3' key={index}>
                                 <div className="card" style={{ width: '300px', height: '250px' }}>
                                     <Link target='__blank' to={`/detail/${rcourse.pk}`}>
-                                        
-                                        <img src={`${siteUrl}/media/${rcourse.fields.featured_img}`} className="card-img-top" alt={rcourse.fields.title}/>
+
+                                        <img src={`${siteUrl}/media/${rcourse.fields.featured_img}`} className="card-img-top" alt={rcourse.fields.title} />
                                         <div className="card-body">
                                             <h5 className="card-title">
                                                 {rcourse.fields.title}
