@@ -37,6 +37,7 @@ import { CategoryCourses } from './CategoryCourses'
 import { CourseChapters } from './Teacher/CourseChapters'
 import { EditChapter } from './Teacher/EditChapter'
 import EditCourse from './Teacher/EditCourse'
+import { TeacherSkillCourses } from './TeacherSkillCourses'
 
 
 
@@ -75,6 +76,7 @@ export const Main = () => {
         <Route path='/teacher-logout' element={<TeacherLogout/>}/>
         <Route path='/add-chapter/:course_id' element={<AddChapter/>}/>
         <Route path='/edit-course/:course_id' element={<EditCourse/>}/>
+        <Route path='/teacher-skill-courses/:skill_name/:teacher_id' element={<TeacherSkillCourses/>}/>
 
         {/* List Pages */}
         <Route path='/all-courses' element={<AllCourses/>}/>
