@@ -15,6 +15,11 @@ class Teacher(models.Model):
     class Meta:
         verbose_name_plural="1. Teacher"
 
+    def skill_list(self):
+        skill_list = self.skills.split(',')
+        skill_list = [skill.strip() for skill in skill_list]
+        return skill_list
+
 
 # CourseCategory Model
 class CourseCategory(models.Model):
