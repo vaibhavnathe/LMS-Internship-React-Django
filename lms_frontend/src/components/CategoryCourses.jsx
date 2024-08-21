@@ -1,112 +1,65 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
-import logo from '../assests/logo.jpeg'
-import devops from '../assests/devops.png'
-import django from '../assests/django.jpeg'
-import python from '../assests/python.webp'
+import React, { useEffect, useState } from 'react'
+import { Link, useParams } from 'react-router-dom'
+// import '../App.css';
+import axios from 'axios'
+
+const baseUrl = 'http://127.0.0.1:8000/api';
 
 export const CategoryCourses = () => {
+
+    const { category_slug } = useParams();
+
+    const [courseData, setCourseData] = useState([]);
+
+
+    useEffect(() => {
+        const fetchCourseData = async () => {
+            try {
+                const response = await axios.get(`${baseUrl}/course/?category=${category_slug}`)
+                if (response) {
+                    setCourseData(response.data);
+                }
+            }
+            catch (error) {
+                console.log(error);
+            }
+        }
+        fetchCourseData();
+    }, [])
+
+    // console.log(courseData);
+
     return (
         <div className='container mt-4'>
             <h3 className=' pb-1 mb-4'>
-                Web Developement Courses
+                {category_slug} Courses
             </h3>
             <div className='row'>
-                <div className='col-md-3  mb-4'>
-                    <div className="card" >
-                        <Link to='/detail/1'>
-                            <img src={devops} className="card-img-top" alt="..." />
-                            <div className="card-body">
-                                <h5 className="card-title">
-                                    Course title
-                                </h5>
+               
+                <div className='container'>
+                    <div className='row'>
+                        <div className='col-12'>
+                            <div className='row row-cols-1 row-cols-md-3 g-4 mb-4'>
+                                {courseData.length > 0 && courseData.map((course, index) => (
+                                    <div className="col" key={index}>
+                                        <div className="card fixed-size-card">
+                                            <Link to={`/detail/${course.id}`}>
+                                                <img src={course.featured_img} className="card-img-top" alt={course.title} />
+                                                <div className="card-body">
+                                                    <h5 className="card-title">
+                                                        {course.title}
+                                                    </h5>
+                                                </div>
+                                            </Link>
+                                        </div>
+                                    </div>
+                                ))}
                             </div>
-                        </Link>
-                    </div>
-                </div>
-
-                <div className='col-md-3 mb-4'>
-                    <div className="card" >
-                        <a href="#"><img src={python} className="card-img-top" alt="..." /></a>
-                        <div className="card-body">
-                            <h5 className="card-title">
-                                <a href="#">Course title</a>
-                            </h5>
                         </div>
                     </div>
                 </div>
 
-                <div className='col-md-3 mb-4'>
-                    <div className="card" >
-                        <a href="#"><img src={django} className="card-img-top" alt="..." /></a>
-                        <div className="card-body">
-                            <h5 className="card-title">
-                                <a href="#">Course title</a>
-                            </h5>
 
-                        </div>
-                    </div>
-                </div>
-
-                <div className='col-md-3 mb-4'>
-                    <div className="card" >
-                        <a href="#"><img src={logo} className="card-img-top" alt="..." /></a>
-                        <div className="card-body">
-                            <h5 className="card-title">
-                                <a href="#">Course title</a>
-                            </h5>
-
-                        </div>
-                    </div>
-                </div>
-                <div className='col-md-3 mb-4'>
-                    <div className="card" >
-                        <Link to='/detail/1'>
-                            <img src={logo} className="card-img-top" alt="..." />
-                            <div className="card-body">
-                                <h5 className="card-title">
-                                    Course title
-                                </h5>
-                            </div>
-                        </Link>
-                    </div>
-                </div>
-                <div className='col-md-3 mb-4'>
-                    <div className="card" >
-                        <Link to='/detail/1'>
-                            <img src={django} className="card-img-top" alt="..." />
-                            <div className="card-body">
-                                <h5 className="card-title">
-                                    Course title
-                                </h5>
-                            </div>
-                        </Link>
-                    </div>
-                </div>
-                <div className='col-md-3 mb-4'>
-                    <div className="card" >
-                        <Link to='/detail/1'>
-                            <img src={python} className="card-img-top" alt="..." />
-                            <div className="card-body">
-                                <h5 className="card-title">
-                                    Course title
-                                </h5>
-                            </div>
-                        </Link>
-                    </div>
-                </div>
-                <div className='col-md-3 mb-4'>
-                    <div className="card" >
-                        <Link to='/detail/1'>
-                            <img src={devops} className="card-img-top" alt="..." />
-                            <div className="card-body">
-                                <h5 className="card-title">
-                                    Course title
-                                </h5>
-                            </div>
-                        </Link>
-                    </div>
-                </div>
             </div>
 
             {/* Pagination Start */}
