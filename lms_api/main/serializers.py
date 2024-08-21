@@ -7,6 +7,12 @@ class TeacherSerializer(serializers.ModelSerializer):
         fields=['id','full_name', 'detail', 'email', 'password', 'qualification', 'mobile_no','skills', 'teacher_courses', 'skill_list']
         depth=1
 
+class StudentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=models.Student
+        fields=['id','full_name', 'email', 'username', 'password', 'interested_categories']
+        # depth=1
+
 
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
