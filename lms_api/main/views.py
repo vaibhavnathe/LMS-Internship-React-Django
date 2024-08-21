@@ -6,7 +6,7 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.response import Response
 from rest_framework import generics
 from rest_framework import permissions
-from .serializers import TeacherSerializer, CategorySerializer, CourseSerializer, ChapterSerializer
+from .serializers import TeacherSerializer, CategorySerializer, CourseSerializer, ChapterSerializer, StudentSerializer
 from django.http import JsonResponse
 from . import models
 
@@ -112,3 +112,14 @@ class ChapterDetailView (generics.RetrieveUpdateDestroyAPIView):
 class CourseDetailView (generics.RetrieveAPIView):
     serializer_class = CourseSerializer
     queryset = models.Course.objects.all()
+
+
+
+
+# ******* Student Data ********* 
+
+# fetch all the list of Stdent
+class StudentList (generics.ListCreateAPIView):
+    queryset = models.Student.objects.all()
+    serializer_class = StudentSerializer
+    # permission_classes = [permissions.IsAuthenticated]
