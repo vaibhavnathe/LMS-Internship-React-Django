@@ -31,7 +31,7 @@ export default function AllCourses() {
 
     }, [])
 
-    console.log(courseData);
+    // console.log(courseData);
 
     return (
         <div className='container mt-4'>
@@ -45,17 +45,17 @@ export default function AllCourses() {
                     courseData && courseData.map((course, index) => (
 
                         <div className='col-md-3  mb-4' key={index}>
-
+                            
                             <div className="card">
                                 <Link to={`/detail/${course.id}`}>
                                     <img src={course.featured_img} className="card-img-top" alt={course.title} />
+                                
 
-
-                                    <div className="card-body">
-                                        <h5 className="card-title">
+                                <div className="card-body">
+                                    <h5 className="card-title">
                                             {course.title}
-                                        </h5>
-                                    </div>
+                                    </h5>
+                                </div>
                                 </Link>
 
                             </div>
