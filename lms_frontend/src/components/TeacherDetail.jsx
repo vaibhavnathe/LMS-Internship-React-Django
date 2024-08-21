@@ -46,7 +46,7 @@ export default function TeacherDetail() {
                 <div className="col-8">
                     <h3>{teacherData.full_name}</h3>
                     <p>{teacherData.detail}</p>
-                    <p className='fw-bold'>Skills: <Link to='/category/php'>{teacherData.skills}</Link> , <Link to='/category/python'>Python</Link> , <Link to='/category/web-developement'>Javascript</Link></p>
+                    <p className='fw-bold'>Skills: <Link to='/category/php'>{teacherData.skills}</Link> </p>
                     <p className='fw-bold'>Recent Course:  <Link to='/teacher-detail/1'>ReactJs Course</Link></p>
                     <p className='fw-bold'>Rating: 4.5/5</p>
                 </div>
