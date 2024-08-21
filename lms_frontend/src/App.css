@@ -36,3 +36,27 @@
     transform: rotate(360deg);
   }
 }
+
+
+.fixed-size-card {
+  width: 100%; /* Adjust as needed for responsiveness */
+  max-width: 300px; /* Fixed width for each card */
+  height: 250px; /* Fixed height for each card */
+  display: flex;
+  padding: 10px;
+  flex-direction: column; 
+}
+
+.fixed-size-card .card-img-top {
+  object-fit: cover; /* Ensure the image covers the card area */
+  height: 60%; /* Adjust based on card height */
+  border-radius: 10px;
+}
+
+.fixed-size-card .card-body {
+  flex: 1; /* Allows the body to grow and fill the remaining space */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
