@@ -7,34 +7,37 @@ const baseUrl = 'http://127.0.0.1:8000/api';
 
 export default function TeacherDetail() {
 
-    const {teacher_id} = useParams();
+    const { teacher_id } = useParams();
 
     const [teacherData, setTeacherData] = useState(null);
     const [courseData, setCourseData] = useState(null);
+    const [skillList, setSkillList] = useState([]);
 
     useEffect(() => {
-        const fetchTeacherData = async() => {
-            try{
+        const fetchTeacherData = async () => {
+            try {
                 const response = await axios.get(`${baseUrl}/teacher/${teacher_id}`);
-                if(response){
+                if (response) {
                     // console.log(response.data);
                     setTeacherData(response.data);
                     setCourseData(response.data.teacher_courses)
+                    setSkillList(response.data.skill_list)
                 }
             }
-            catch(error){
+            catch (error) {
                 console.log("Error while fetching the Teacher Data!");
                 console.log(error);
             }
         }
         fetchTeacherData();
 
-    },[])
+    }, [])
 
     if (!teacherData) {
         return <div>Loading...</div>;
     }
 
+    // console.log("TEacher Skills: ", skillList)
 
     return (
         <div className="container mt-3">
@@ -46,7 +49,15 @@ export default function TeacherDetail() {
                 <div className="col-8">
                     <h3>{teacherData.full_name}</h3>
                     <p>{teacherData.detail}</p>
-                    <p className='fw-bold'>Skills: <Link to='/category/php'>{teacherData.skills}</Link> </p>
+                    <p className='fw-bold'>Skills: {" "}
+                        {
+                            skillList.length > 0 && skillList.map((skill, index) => (
+                                <Link to={`/teacher-skill-courses/${skill.trim()}/${teacherData.id}`} key={index} className='badge bg-warning ms-1 badge-pill text-dark'>
+                                    {skill.trim()}
+                                </Link>
+                            ))
+                        }
+                    </p>
                     <p className='fw-bold'>Recent Course:  <Link to='/teacher-detail/1'>ReactJs Course</Link></p>
                     <p className='fw-bold'>Rating: 4.5/5</p>
                 </div>
