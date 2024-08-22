@@ -30,3 +30,8 @@ class ChapterSerializer(serializers.ModelSerializer):
     class Meta:
         model=models.Chapter
         fields=['id', 'course', 'title', 'description', 'video', 'remarks']
+
+class StudentCourseEnrollSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=models.StudentCourseEnrollment
+        fields =['id', 'course', 'student', 'enrolled_time']
