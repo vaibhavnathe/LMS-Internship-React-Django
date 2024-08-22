@@ -1,16 +1,13 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
-import toast from 'react-hot-toast';
+import {toast} from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 
 const baseUrl = 'http://127.0.0.1:8000/api';
 
 export default function TeacherLogin() {
 
     const [errorMsg, setErrorMsg] = useState('');
-
-    useEffect(() => {
-        document.title = "Teacher login"
-    });
 
     const [teacherLoginData, setTeacherLoginData] = useState({
         email:'',
@@ -34,11 +31,15 @@ export default function TeacherLogin() {
        try{
             const response = await axios.post(`${baseUrl}/teacher-login`, teacherFormData);
             console.log(response.data);
+
             if(response.data.bool == true){
                 localStorage.setItem('teacherLoginStatus', true);
                 localStorage.setItem('teacherId', response.data.teacher_id);
-                window.location.href = '/teacher-dashboard';
+                
                 toast.success('Login Successful!');
+                setTimeout(() => {
+                    window.location.href = '/teacher-dashboard';
+                }, 1000); // Delay to ensure toast message is visible
                 
             }
             else{
@@ -55,9 +56,14 @@ export default function TeacherLogin() {
 
     const teacherLoginStatus = localStorage.getItem('teacherLoginStatus');
     // console.log(teacherLoginStatus);
-    if(teacherLoginStatus){
-        window.location.href = '/teacher-dashboard';
-    }
+    
+
+    useEffect(() => {
+        document.title = "Teacher login"
+        if(teacherLoginStatus === 'true'){
+            window.location.href = '/teacher-dashboard';
+        }
+    });
 
     return (
         <div className="container mt-4">
