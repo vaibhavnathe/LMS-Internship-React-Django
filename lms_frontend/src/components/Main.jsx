@@ -16,6 +16,7 @@ import FavouriteCourses from './User/FavouriteCourses'
 import RecommendedCourses from './User/RecommendedCourses'
 import ProfileSetting from './User/ProfileSetting'
 import ChangePassword from './User/ChangePassword'
+import { StudentLogout } from './User/StudentLogout'
 
 // Teachers
 import TeacherLogin from './Teacher/TeacherLogin'
@@ -29,7 +30,7 @@ import UserList from './Teacher/UserList'
 import { TeacherLogout } from './Teacher/TeacherLogout'
 import { AddChapter } from './Teacher/AddChapter'
 
-// List Pages
+// Course Pages
 import AllCourses from './AllCourses'
 import { PopularCourses } from './PopularCourses'
 import { PopularTeachers } from './PopularTeachers'
@@ -55,6 +56,7 @@ export const Main = () => {
         <Route path='/about' element={<About/>}/>
         <Route path='/detail/:course_id' element={<CourseDetail/>}/>
         <Route path='/user-login' element={<Login/>}/>
+        <Route path='/user-logout' element={<StudentLogout/>}/>
         <Route path='/user-register' element={<Register/>}/>
         <Route path='/user-dashboard' element={<Dashboard/>}/>
         <Route path='/my-courses' element={<MyCourses/>}/>
