@@ -14,33 +14,33 @@ export default function ProfileSetting() {
                         <h5 className="card-header">Profile Setting</h5>
                         <div className="card-body">
                             <div className="mb-3 row">
-                                <label for="staticName" className="col-sm-2 col-form-label">Full Name</label>
+                                <label htmlFor="staticName" className="col-sm-2 col-form-label">Full Name</label>
                                 <div className="col-sm-10">
                                     <input type="text" className="form-control" id="staticName" />
                                 </div>
                             </div>
                             <div className="mb-3 row">
-                                <label for="staticEmail" className="col-sm-2 col-form-label">Email</label>
+                                <label htmlFor="staticEmail" className="col-sm-2 col-form-label">Email</label>
                                 <div className="col-sm-10">
                                     <input type="email" className="form-control" id="staticEmail" />
                                 </div>
                             </div>
                             <div className="mb-3 row">
-                                <label for="inputPassword" className="col-sm-2 col-form-label">Profile Picture</label>
+                                <label htmlFor="profilePicture" className="col-sm-2 col-form-label">Profile Picture</label>
                                 <div className="col-sm-10">
-                                    <input type="file" className="form-control" id="inputPassword" />
+                                    <input type="file" className="form-control" id="profilePicture" />
                                 </div>
                             </div>
                             <div className="mb-3 row">
-                                <label for="inputPassword" className="col-sm-2 col-form-label">Password</label>
+                                <label htmlFor="inputPassword" className="col-sm-2 col-form-label">Password</label>
                                 <div className="col-sm-10">
                                     <input type="password" className="form-control" id="inputPassword" />
                                 </div>
                             </div>
                             <div className="mb-3 row">
-                                <label for="inputPassword" className="col-sm-2 col-form-label">Interest</label>
+                                <label htmlFor="interest" className="col-sm-2 col-form-label">Interest</label>
                                 <div className="col-sm-10">
-                                    <input type="text" className="form-control" id="inputPassword" />
+                                    <input type="text" className="form-control" id="interest" />
                                 </div>
                             </div>
                             <hr />
