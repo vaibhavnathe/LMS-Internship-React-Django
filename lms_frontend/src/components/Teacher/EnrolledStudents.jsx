@@ -49,7 +49,7 @@ export default function EnrolledStudents() {
                                         <th>Name</th>
                                         <th>Email</th>
                                         <th>Username</th>
-                                        <th>Action</th>
+                                        <th>Intersted Categories</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -57,14 +57,10 @@ export default function EnrolledStudents() {
                                         (studentData.length > 0) && (
                                             studentData.map((data, index) => (
                                                 <tr key={index}>
-                                                    <td><Link to={`/view-student/${data.student.id}`}>{data.student.full_name}</Link></td>
+                                                    <td>{data.student.full_name}</td>
                                                     <td> {data.student.email}</td>
                                                     <td> {data.student.username}</td>
-                                                    <td>
-                                                       
-                                                        <Link to={`/view-student/${data.student.id}`}><button className='btn btn-info btn-md  '>View</button></Link>
-
-                                                    </td>
+                                                    <td>{data.student.interested_categories}</td>
                                                 </tr>
                                             ))
                                         )
