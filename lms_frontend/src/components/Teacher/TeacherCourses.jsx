@@ -59,7 +59,7 @@ export default function TeacherCourses() {
                                                 <tr key={index}>
                                                     <td><Link to={`/all-chapters/${course.id}`}>{course.title}</Link></td>
                                                     <td><img src={course.featured_img} width={80} className='rounded' alt={course.title}/></td>
-                                                    <td><Link to='/'> 320 </Link></td>
+                                                    <td><Link to={`/enrolled-students/${course.id}`}> {course.total_enrolled_students} </Link></td>
                                                     <td>
                                                        
                                                         <Link to={`/edit-course/${course.id}`}><button className='btn btn-info btn-md  '>Edit</button></Link>
