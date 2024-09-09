@@ -57,7 +57,13 @@ export default function TeacherCourses() {
                                         (courseData.length > 0) && (
                                             courseData.map((course, index) => (
                                                 <tr key={index}>
-                                                    <td><Link to={`/all-chapters/${course.id}`}>{course.title}</Link></td>
+                                                    <td>
+                                                        <Link to={`/all-chapters/${course.id}`}>{course.title}</Link>
+                                                        <br />
+                                                        {
+                                                            course.course_rating ? (<p> {course.course_rating}/5</p>) : (<p> 0/5</p>)
+                                                        }
+                                                    </td>
                                                     <td><img src={course.featured_img} width={80} className='rounded' alt={course.title}/></td>
                                                     <td><Link to={`/enrolled-students/${course.id}`}> {course.total_enrolled_students} </Link></td>
                                                     <td>
