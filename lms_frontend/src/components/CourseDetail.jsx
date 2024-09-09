@@ -155,7 +155,7 @@ export default function CourseDetail() {
 
                     }
                     <p className='fw-bold'>Duration: 3 Hours 30 Minutes</p>
-                    <p className='fw-bold'>Total Enrolled: 456 Students</p>
+                    <p className='fw-bold'>Total Enrolled: {courseData.total_enrolled_students} Student(s)</p>
                     <p className='fw-bold'>Rating: 4.5/5</p>
                     {
                         userLoginStatus === 'success'
