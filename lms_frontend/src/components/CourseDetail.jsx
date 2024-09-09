@@ -21,6 +21,13 @@ export default function CourseDetail() {
     const [techList, setTechList] = useState([]);
     const [userLoginStatus, setuUserLoginStatus] = useState();
     const [enrollStatus, setEnrollStatus] = useState();
+    const [ratingData, setRatingData] = useState({
+        rating: '',
+        reviews: '',
+    });
+    const [ratingStatus, setRatingStatus] = useState();
+    const [avgRating, setAvgRating] = useState(0);
+
 
     useEffect(() => {
         const fetchCourseData = async () => {
@@ -32,6 +39,10 @@ export default function CourseDetail() {
                     setChapterData(response.data.course_chapters);
                     setRelatedCourseData(JSON.parse(response.data.related_videos));
                     setTechList(response.data.tech_list);
+                    if(response.data.course_rating != '' && response.data.course_rating !=null){
+                        setAvgRating(response.data.course_rating);
+                        // console.log(avgRating);
+                    }
                 }
             }
             catch (error) {
@@ -41,25 +52,15 @@ export default function CourseDetail() {
         }
         fetchCourseData();
 
+        // Fetch Enroll Status
         const fetchEnrollStatus = async () => {
-            if (!studentId) {
-                // toast("Login First to enrolled in this Course!", {
-                //     icon: '⚠️',
-                //     style: {
-                //         borderRadius: '10px',
-                //         background: '#20c997    ',
-                //         color: '#fff',
-                //     },
-                // });
-                
-                return;
-            }
-
             try {
-                const response = await axios.get(`${baseUrl}/fetch-enroll-status/${studentId}/${course_id}`);
-                if (response.data.bool == true) {
-                    // console.log(response.data)
-                    setEnrollStatus('success');
+                if(studentId){
+                    const response = await axios.get(`${baseUrl}/fetch-enroll-status/${studentId}/${course_id}`);
+                    if (response.data.bool == true) {
+                        // console.log(response.data)
+                        setEnrollStatus('success');
+                    }
                 }
             }
             catch (error) {
@@ -67,8 +68,25 @@ export default function CourseDetail() {
                 console.log(error);
             }
         }
-
         fetchEnrollStatus();
+
+        // Fetch Rating Status
+        const fetchRatingStatus = async () => {
+            try {
+                if(studentId){
+                    const response = await axios.get(`${baseUrl}/fetch-rating-status/${studentId}/${course_id}`);
+                    if (response.data.bool == true) {
+                        // console.log(response.data)
+                        setRatingStatus('success');
+                    }
+                }
+            }
+            catch (error) {
+                console.log("Error While Fetching Course Enroll Status!");
+                console.log(error);
+            }
+        }
+        fetchRatingStatus();
 
         const studentLoginStatus = localStorage.getItem('studentLoginStatus');
         if (studentLoginStatus === 'true') {
@@ -128,6 +146,38 @@ export default function CourseDetail() {
         }
     }
 
+    // Add Rating
+
+    const handleChange = (event) => {
+        setRatingData({
+            ...ratingData,
+            [event.target.name]: event.target.value
+        })
+    }
+
+    const formSubmit = async (event) => {
+        event.preventDefault(); // Prevent default form submission
+
+        const formData = new FormData();
+        formData.append('course', course_id);
+        formData.append('student', studentId);
+        formData.append('rating', ratingData.rating);
+        formData.append('reviews', ratingData.reviews);
+
+        try {
+            const response = await axios.post(baseUrl + `/course-rating/`, formData);
+
+            if (response.status == 200 || response.status == 201) {
+                console.log(response.data);
+                toast.success("Rating has been saved");
+            }
+            window.location.reload();
+        }
+        catch (error) {
+            console.log(error);
+        }
+    }
+
     return (
         <div className="container mt-3">
 
@@ -156,7 +206,50 @@ export default function CourseDetail() {
                     }
                     <p className='fw-bold'>Duration: 3 Hours 30 Minutes</p>
                     <p className='fw-bold'>Total Enrolled: {courseData.total_enrolled_students} Student(s)</p>
-                    <p className='fw-bold'>Rating: 4.5/5</p>
+                    <div className='fw-bold'>
+                        Rating: {avgRating}
+                        {
+                            enrollStatus === 'success' && userLoginStatus == 'success' &&
+                            <>
+                                {ratingStatus != 'success' &&
+                                    <button className='btn btn-success btn-sm ms-2' data-bs-toggle="modal" data-bs-target="#ratingModal">Rating</button>
+                                }
+                                {ratingStatus == 'success' &&
+                                   <span className='badge bg-info text-dark ms-2'>You have already rated this course</span>
+                                }
+                                <div className="modal fade" id="ratingModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div className="modal-dialog model-lg">
+                                        <div className="modal-content">
+                                            <div className="modal-header">
+                                                <h1 className="modal-title fs-5" id="exampleModalLabel">Rate for {courseData.title}</h1>
+                                                <button type="button" className='btn-close' data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div className="modal-body">
+                                                <form >
+                                                    <div className="mb-3">
+                                                        <label htmlFor="exampleInputEmail1" className="form-label">Rating</label>
+                                                        <select onChange={handleChange} className='form-control' name='rating'>
+                                                            <option value="1">1</option>
+                                                            <option value="2">2</option>
+                                                            <option value="3">3</option>
+                                                            <option value="4">4</option>
+                                                            <option value="5">5</option>
+                                                        </select>
+                                                    </div>
+                                                    <div className="mb-3">
+                                                        <label htmlFor="exampleInputPassword1" className="form-label">Review</label>
+                                                        <textarea onChange={handleChange} className='form-control' name='reviews' rows={10}></textarea>
+                                                    </div>
+                                                    <button onClick={formSubmit} type="button" className="btn btn-primary">Submit</button>
+                                                </form>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </>
+                        }
+                    </div>
                     {
                         userLoginStatus === 'success'
                             ? enrollStatus === 'success' ? (<p><span>You are already enrolled in this course!</span></p>)
