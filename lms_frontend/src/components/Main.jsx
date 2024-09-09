@@ -29,6 +29,7 @@ import TeacherChangePassword from './Teacher/TeacherChangePassword'
 import UserList from './Teacher/UserList'
 import { TeacherLogout } from './Teacher/TeacherLogout'
 import { AddChapter } from './Teacher/AddChapter'
+import EnrolledStudents from './Teacher/EnrolledStudents'
 
 // Course Pages
 import AllCourses from './AllCourses'
@@ -70,6 +71,7 @@ export const Main = () => {
         <Route path='/teacher-register' element={<TeacherRegister/>}/>
         <Route path='/teacher-dashboard' element={<TeacherDashboard/>}/>
         <Route path='/teacher-courses' element={<TeacherCourses/>}/>
+        <Route path='/enrolled-students/:course_id' element={<EnrolledStudents/>}/>
         <Route path='/add-course' element={<AddCourse/>}/>
         <Route path='/teacher-users' element={<UserList/>}/>
         <Route path='/teacher-profile-setting' element={<TeacherProfileSetting/>}/>
