@@ -1,8 +1,35 @@
-import React from 'react'
 import Sidebar from './Sidebar'
-import { Link } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import { Link, useParams } from 'react-router-dom'
+import axios from 'axios';
+
+const baseUrl = 'http://127.0.0.1:8000/api';
+
 
 export default function RecommendedCourses() {
+
+    const studentId = localStorage.getItem('studentId');
+
+    const [courseData, setCourseData] = useState([]);
+
+    // Fetch all the courses
+    useEffect(() => {
+        const fetchAllCourses = async () => {
+
+            try {
+                const courses = await axios.get(baseUrl + `/fetch-recommended-courses/${studentId}`);
+                if (courses) {
+                    console.log("data : ", courses);
+                    setCourseData(courses.data);
+                }
+            }
+            catch (error) {
+                console.log(error);
+            }
+        }
+        fetchAllCourses();
+
+    }, [])
 
     return (
 
@@ -13,25 +40,26 @@ export default function RecommendedCourses() {
                 </aside>
                 <section className='col-md-9'>
                     <div className="card">
-                        <h5 className='card-header'>Recommended Courses </h5>
+                        <h5 className='card-header'>My Courses </h5>
                         <div className="card-body">
                             <table className="table table-bordered">
                                 <thead>
                                     <tr>
                                         <th>Name</th>
-                                        <th>Created By</th>
-                                        <th>Action</th>
+                                        <th>Technologies</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>Php Developement</td>
-                                        <td><Link to='#'> Suraj Kumar</Link></td>
-                                        <td>
-                                            <button className='btn btn-danger btn-sm active'>Delete</button>
-                                        </td>
-                                    </tr>
-                                    
+                                    {
+                                        (courseData.length > 0) && (
+                                            courseData.map((data, index) => (
+                                                <tr key={index}>
+                                                    <td><Link to={`/detail/${data.id}`}>{data.title}</Link></td>
+                                                    <td>{data.techs}</td>
+                                                </tr>
+                                            ))
+                                        )
+                                    }
                                 </tbody>
                             </table>
                         </div>
@@ -39,5 +67,7 @@ export default function RecommendedCourses() {
                 </section>
             </div>
         </div>
+
+
     )
 }
