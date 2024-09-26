@@ -20,6 +20,21 @@ class Teacher(models.Model):
         skill_list = [skill.strip() for skill in skill_list]
         return skill_list
 
+    # Total Teacher Courses
+    def total_teacher_courses(self):
+        total_courses = Course.objects.filter(teacher=self).count()
+        return total_courses
+
+    # Total Teacher Chapters
+    def total_teacher_chapters(self):
+        total_chapters = Chapter.objects.filter(course__teacher=self).count()
+        return total_chapters
+
+    # # Total Teacher Students
+    def total_teacher_students(self):
+        total_students = StudentCourseEnrollment.objects.filter(course__teacher=self).count()
+        return total_students
+
 
 # CourseCategory Model
 class CourseCategory(models.Model):
