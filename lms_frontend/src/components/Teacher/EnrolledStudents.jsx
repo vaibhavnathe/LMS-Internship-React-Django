@@ -15,7 +15,7 @@ export default function EnrolledStudents() {
         const getAllStudents = async () => {
 
             try {
-                const students = await axios.get(baseUrl + `/fetch-enroll-students/${course_id}`);
+                const students = await axios.get(baseUrl + `/fetch-enrolled-students/${course_id}`);
                 if (students) {
                     setStudentData(students.data);
                 }
