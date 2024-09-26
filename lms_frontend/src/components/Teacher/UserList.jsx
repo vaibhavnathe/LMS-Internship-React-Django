@@ -1,8 +1,34 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { Link, useParams } from 'react-router-dom'
 import TeacherSidebar from './TeacherSidebar'
-import { Link } from 'react-router-dom'
+import axios from 'axios';
+
+const baseUrl = 'http://127.0.0.1:8000/api';
 
 export default function UserList() {
+
+    const teacher_id = localStorage.getItem('teacherId');         
+
+    const [studentData, setStudentData] = useState([]);
+
+    useEffect(() => {
+        const getAllStudents = async () => {
+
+            try {
+                const students = await axios.get(baseUrl + `/fetch-all-enrolled-students/${teacher_id}`);
+                if (students) {
+                    console.log("data : ", students);
+                    setStudentData(students.data);
+                }
+            }
+            catch (error) {
+                console.log(error);
+            }
+        }
+        getAllStudents();
+
+    }, [])
+
 
     return (
 
@@ -11,26 +37,36 @@ export default function UserList() {
                 <aside className='col-md-3'>
                     <TeacherSidebar />
                 </aside>
+
+                { }
+
                 <section className='col-md-9'>
                     <div className="card">
-                        <h5 className='card-header'>User List </h5>
+                        <h5 className='card-header'>All Student List</h5>
                         <div className="card-body">
                             <table className="table table-bordered">
                                 <thead>
                                     <tr>
                                         <th>Name</th>
-                                        <th>Enrolled Course</th>
-                                        <th>Action</th>
+                                        <th>Email</th>
+                                        <th>Username</th>
+                                        <th>Intersted Categories</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>John Doe</td>
-                                        <td><Link to='/'> MERN Stack</Link></td>
-                                        <td>
-                                            <button className='btn btn-danger btn-sm active'>Delete</button>
-                                        </td>
-                                    </tr>
+                                    {
+                                        (studentData.length > 0) && (
+                                            studentData.map((data, index) => (
+                                                <tr key={index}>
+                                                    <td>{data.student.full_name}</td>
+                                                    <td> {data.student.email}</td>
+                                                    <td> {data.student.username}</td>
+                                                    <td>{data.student.interested_categories}</td>
+                                                </tr>
+                                            ))
+                                        )
+                                    }
+
                                 </tbody>
                             </table>
                         </div>
@@ -38,5 +74,7 @@ export default function UserList() {
                 </section>
             </div>
         </div>
+
+
     )
 }
