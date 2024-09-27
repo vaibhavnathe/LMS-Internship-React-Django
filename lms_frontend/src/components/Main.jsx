@@ -40,6 +40,7 @@ import { CourseChapters } from './Teacher/CourseChapters'
 import { EditChapter } from './Teacher/EditChapter'
 import EditCourse from './Teacher/EditCourse'
 import { TeacherSkillCourses } from './TeacherSkillCourses'
+import { AddAssignment } from './Teacher/AddAssignment'
 
 
 
@@ -79,6 +80,7 @@ export const Main = () => {
         <Route path='/teacher-detail/:teacher_id' element={<TeacherDetail/>}/>
         <Route path='/teacher-logout' element={<TeacherLogout/>}/>
         <Route path='/add-chapter/:course_id' element={<AddChapter/>}/>
+        <Route path='/add-assignment/:teacher_id/:student_id' element={<AddAssignment/>}/>
         <Route path='/edit-course/:course_id' element={<EditCourse/>}/>
         <Route path='/teacher-skill-courses/:skill_name/:teacher_id' element={<TeacherSkillCourses/>}/>
 
