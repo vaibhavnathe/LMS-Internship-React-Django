@@ -1,9 +1,38 @@
-import React from 'react'
 import Sidebar from './Sidebar'
-import { Link } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import { Link, useParams } from 'react-router-dom'
+import axios from 'axios';
+
+const baseUrl = 'http://127.0.0.1:8000/api';
+
 
 export default function FavouriteCourses() {
+
+    const studentId = localStorage.getItem('studentId');
+
+    const [courseData, setCourseData] = useState([]);
+
+    // Fetch all the courses
+    useEffect(() => {
+        const fetchAllCourses = async () => {
+
+            try {
+                const courses = await axios.get(baseUrl + `/fetch-favourite-courses/${studentId}`);
+                if (courses) {
+                    console.log("data : ", courses); 
+                    setCourseData(courses.data);
+                }
+            }
+            catch (error) {
+                console.log(error);
+            }
+        }
+        fetchAllCourses();
+
+    }, [])
+
     return (
+
         <div className='container mt-4'>
             <div className="row">
                 <aside className='col-md-3'>
@@ -18,17 +47,19 @@ export default function FavouriteCourses() {
                                     <tr>
                                         <th>Name</th>
                                         <th>Created By</th>
-                                        <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>Php Developement</td>
-                                        <td><Link to='/'> Suraj Kumar</Link></td>
-                                        <td>
-                                            <button className='btn btn-danger btn-sm active'>Delete</button>
-                                        </td>
-                                    </tr>
+                                    {
+                                        (courseData.length > 0) && (
+                                            courseData.map((data, index) => (
+                                                <tr key={index}>
+                                                    <td><Link to={`/detail/${data.course.id}`}>{data.course.title}</Link></td>
+                                                    <td><Link to={`/teacher-detail/${data.course.teacher.id}`}> {data.course.teacher.full_name}</Link></td>
+                                                </tr>
+                                            ))
+                                        )
+                                    }
                                 </tbody>
                             </table>
                         </div>
@@ -36,6 +67,7 @@ export default function FavouriteCourses() {
                 </section>
             </div>
         </div>
+
 
     )
 }
