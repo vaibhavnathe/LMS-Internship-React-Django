@@ -6,7 +6,7 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.response import Response
 from rest_framework import generics
 from rest_framework import permissions
-from .serializers import TeacherSerializer, CategorySerializer, CourseSerializer, ChapterSerializer, StudentSerializer, StudentCourseEnrollSerializer, CourseRatingSerializer, TeacherDashboardSerializer
+from .serializers import TeacherSerializer, CategorySerializer, CourseSerializer, ChapterSerializer, StudentSerializer, StudentCourseEnrollSerializer, CourseRatingSerializer, TeacherDashboardSerializer,StudentFavouriteCourseSerializer
 from django.http import JsonResponse
 from . import models
 from django.db.models import Q
@@ -207,6 +207,40 @@ def fetch_rating_status(request, student_id, course_id):
     ratingStatus = models.CourseRating.objects.filter(course=course, student=student).count()
 
     if(ratingStatus):
+        return JsonResponse({'bool':True})
+    else:
+        return JsonResponse({'bool':False})
+
+
+# Student Favourite Courses views
+
+class StudentFavouriteCourseList(generics.ListCreateAPIView):
+    queryset=models.StudentFavouriteCourse.objects.all()
+    serializer_class=StudentFavouriteCourseSerializer
+
+def fetch_enroll_status(request, student_id, course_id):
+    student=models.Student.objects.filter(id=student_id).first()
+    course=models.Course.objects.filter(id=course_id).first()
+    enrollStatus=models.StudentCourseEnrollment.objects.filter(course=course, student=student).count()
+    if enrollStatus:
+        return JsonResponse({'bool':True})
+    else:
+        return JsonResponse({'bool':False})
+
+def fetch_favourite_status(request, student_id, course_id):
+    student=models.Student.objects.filter(id=student_id).first()
+    course=models.Course.objects.filter(id=course_id).first()
+    favouriteStatus=models.StudentFavouriteCourse.objects.filter(course=course, student=student).first()
+    if favouriteStatus:
+        return JsonResponse({'bool':True})
+    else:
+        return JsonResponse({'bool':False})
+
+def remove_favourite_course(request, course_id, student_id):
+    student=models.Student.objects.filter(id=student_id).first()
+    course=models.Course.objects.filter(id=course_id).first()
+    favouriteStatus=models.StudentFavouriteCourse.objects.filter(course=course, student=student).delete()
+    if favouriteStatus:
         return JsonResponse({'bool':True})
     else:
         return JsonResponse({'bool':False})
