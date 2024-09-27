@@ -121,6 +121,17 @@ class StudentCourseEnrollment(models.Model):
     def __str__(self):
         return f"{self.course}-{self.student}"
 
+# Student Favourite Courses
+class StudentFavouriteCourse(models.Model):
+    course=models.ForeignKey(Course,on_delete=models.CASCADE)
+    student=models.ForeignKey(Student,on_delete=models.CASCADE)
+    status=models.BooleanField(default=False)
+
+    class Meta:
+        verbose_name_plural="7. Student Favourite Courses"
+
+    def __str__(self):
+        return f"{self.course}-{self.student}"
 
 # Course Rating and Review
 class CourseRating(models.Model):
@@ -129,6 +140,9 @@ class CourseRating(models.Model):
     rating = models.PositiveBigIntegerField(default=0)
     reviews = models.TextField(null=True)
     review_time = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name_plural="8. Course Rating"
 
 
     def __str__(self):
