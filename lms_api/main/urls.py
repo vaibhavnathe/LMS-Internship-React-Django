@@ -23,6 +23,7 @@ urlpatterns = [
     path('student-remove-favourite-course/<int:course_id>/<int:student_id>', views.remove_favourite_course),
     path('fetch-favourite-status/<int:student_id>/<int:course_id>', views.fetch_favourite_status),
     path('fetch-favourite-courses/<int:student_id>', views.StudentFavouriteCourseList.as_view()),
+    path('student-assignment/<int:teacher_id>/<int:student_id>', views.AssignmentList.as_view()),
 
     # Category
     path('category/', views.CategoryList.as_view()),
