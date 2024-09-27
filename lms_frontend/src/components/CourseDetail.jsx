@@ -4,6 +4,7 @@ import logo from '../assests/logo.jpeg'
 import axios from 'axios';
 import ReactPlayer from 'react-player';
 import toast from 'react-hot-toast';
+import Swal from 'sweetalert2';
 
 
 const baseUrl = 'http://127.0.0.1:8000/api';
@@ -14,6 +15,8 @@ export default function CourseDetail() {
     const { course_id } = useParams();
     const studentId = localStorage.getItem('studentId');
     const navigate = useNavigate();
+
+    const [favouriteStatus, setFavouriteStatus] = useState();
 
     const [courseData, setCourseData] = useState(null);
     const [chapterData, setChapterData] = useState([]);
@@ -39,7 +42,7 @@ export default function CourseDetail() {
                     setChapterData(response.data.course_chapters);
                     setRelatedCourseData(JSON.parse(response.data.related_videos));
                     setTechList(response.data.tech_list);
-                    if(response.data.course_rating != '' && response.data.course_rating !=null){
+                    if (response.data.course_rating != '' && response.data.course_rating != null) {
                         setAvgRating(response.data.course_rating);
                         // console.log(avgRating);
                     }
@@ -55,7 +58,7 @@ export default function CourseDetail() {
         // Fetch Enroll Status
         const fetchEnrollStatus = async () => {
             try {
-                if(studentId){
+                if (studentId) {
                     const response = await axios.get(`${baseUrl}/fetch-enroll-status/${studentId}/${course_id}`);
                     if (response.data.bool == true) {
                         // console.log(response.data)
@@ -73,7 +76,7 @@ export default function CourseDetail() {
         // Fetch Rating Status
         const fetchRatingStatus = async () => {
             try {
-                if(studentId){
+                if (studentId) {
                     const response = await axios.get(`${baseUrl}/fetch-rating-status/${studentId}/${course_id}`);
                     if (response.data.bool == true) {
                         // console.log(response.data)
@@ -87,6 +90,26 @@ export default function CourseDetail() {
             }
         }
         fetchRatingStatus();
+
+        // fetch favourite status
+        const fetchFavouriteStatus = async () => {
+            try {
+                if (studentId) {
+                    const response = await axios.get(`${baseUrl}/fetch-favourite-status/${studentId}/${course_id}`);
+                    if (response.data.bool == true) {
+                        setFavouriteStatus('success');
+                    }
+                    else {
+                        setFavouriteStatus('');
+                    }
+                }
+            }
+            catch (error) {
+                console.log("Error While Fetching Course Enroll Status!");
+                console.log(error);
+            }
+        }
+        fetchFavouriteStatus();
 
         const studentLoginStatus = localStorage.getItem('studentLoginStatus');
         if (studentLoginStatus === 'true') {
@@ -145,6 +168,77 @@ export default function CourseDetail() {
             console.log(error);
         }
     }
+
+    // Mark as Favourite
+    const markAsFavourite = () => {
+        const formData = new FormData();
+        formData.append('course', course_id);
+        formData.append('student', studentId);
+        formData.append('status', true);
+
+        try {
+            axios.post(baseUrl + '/student-add-favourite-course/', formData, {
+                headers: {
+                    'content-type': 'multipart/form-data'
+                }
+            })
+                .then((res) => {
+                    if (res.status === 200 || res.status === 201) {
+                        Swal.fire({
+                            title: 'This Course has been added in your wish list',
+                            icon: 'success',
+                            toast: true,
+                            timer: 7000,
+                            position: 'top-right',
+                            timerProgressBar: true,
+                            showConfirmButton: false
+                        });
+                        setFavouriteStatus('success');
+                    }
+                })
+        }
+        catch (error) {
+            console.log(error);
+        }
+    };
+
+    // Remove from favourite course
+    const removeFavourite = () => {
+
+
+        const formData = new FormData();
+        formData.append('course', course_id);
+        formData.append('student', studentId);
+        formData.append('status', false);
+
+        console.log("Course id : ", course_id);
+        console.log("Student id : ", studentId);
+
+        try {
+            axios.get(`${baseUrl}/student-remove-favourite-course/${course_id}/${studentId}`, {
+                headers: {
+                    'content-type': 'multipart/form-data',
+                }
+            })
+                .then((res) => {
+                    if (res.status === 200 || res.status === 201) {
+                        Swal.fire({
+                            title: 'This Course has been removed from your wish list',
+                            icon: 'success',
+                            toast: true,
+                            timer: 7000,
+                            position: 'top-right',
+                            timerProgressBar: true,
+                            showConfirmButton: false
+                        });
+                        setFavouriteStatus('');
+                    }
+                })
+        }
+        catch (error) {
+            console.log(error);
+        }
+    };
 
     // Add Rating
 
@@ -215,7 +309,7 @@ export default function CourseDetail() {
                                     <button className='btn btn-success btn-sm ms-2' data-bs-toggle="modal" data-bs-target="#ratingModal">Rating</button>
                                 }
                                 {ratingStatus == 'success' &&
-                                   <span className='badge bg-info text-dark ms-2'>You have already rated this course</span>
+                                    <span className='badge bg-info text-dark ms-2'>You have already rated this course</span>
                                 }
                                 <div className="modal fade" id="ratingModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                     <div className="modal-dialog model-lg">
@@ -251,11 +345,53 @@ export default function CourseDetail() {
                         }
                     </div>
                     {
-                        userLoginStatus === 'success'
-                            ? enrollStatus === 'success' ? (<p><span>You are already enrolled in this course!</span></p>)
-                                : (<p><button type='button' onClick={enrollCourse} className='btn btn-success btn-md'>Enroll in this Course</button></p>)
-                            : (<p><Link to='/user-login'>Please Login to Enroll in this Course!</Link></p>)
+                        userLoginStatus === 'success' ? (
+                            < div className='d-flex align-items-center'>
+
+                                {enrollStatus === 'success' ? (
+                                    <p><span>You are already enrolled in this course!</span></p>
+                                ) : (
+                                    <p>
+                                        <button type='button' onClick={enrollCourse} className='btn btn-success btn-md'>
+                                            Enroll in this Course
+                                        </button>
+                                    </p>
+                                )}
+                                {
+                                    userLoginStatus === 'success' && favouriteStatus !== 'success' &&
+                                    <p>
+                                        <button
+                                            type='button'
+                                            title='Add to Favourite Courses'
+                                            onClick={markAsFavourite}
+                                            className={`btn btn-outline-danger ms-2`}
+                                        >
+                                            <i className='bi bi-heart-fill'></i>
+                                        </button>
+
+                                    </p>
+                                }
+                                {
+                                    userLoginStatus === 'success' && favouriteStatus === 'success' &&
+                                    <p>
+                                        <button
+                                            type='button'
+                                            title='Remove from your Favourite Courses'
+                                            onClick={removeFavourite}
+                                            className={`btn btn-danger ms-2`}
+                                        >
+                                            <i className='bi bi-heart-fill'></i>
+                                        </button>
+
+                                    </p>
+                                }
+                            </div>
+                        ) : (
+                            <p><Link to='/user-login'>Please Login to Enroll in this Course!</Link></p>
+                        )
                     }
+
+
 
 
                 </div>
