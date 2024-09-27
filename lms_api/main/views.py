@@ -6,7 +6,7 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.response import Response
 from rest_framework import generics
 from rest_framework import permissions
-from .serializers import TeacherSerializer, CategorySerializer, CourseSerializer, ChapterSerializer, StudentSerializer, StudentCourseEnrollSerializer, CourseRatingSerializer, TeacherDashboardSerializer,StudentFavouriteCourseSerializer
+from .serializers import TeacherSerializer, CategorySerializer, CourseSerializer, ChapterSerializer, StudentSerializer, StudentCourseEnrollSerializer, CourseRatingSerializer, TeacherDashboardSerializer,StudentFavouriteCourseSerializer,StudentAssignmentSerializer
 from django.http import JsonResponse
 from . import models
 from django.db.models import Q
@@ -251,3 +251,18 @@ def remove_favourite_course(request, course_id, student_id):
         return JsonResponse({'bool':True})
     else:
         return JsonResponse({'bool':False})
+
+
+# View for Student Assignments
+# fetch all categories
+class AssignmentList (generics.ListCreateAPIView):
+    queryset = models.StudentAssignment.objects.all()
+    serializer_class = StudentAssignmentSerializer
+    # permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        student_id = self.kwargs['student_id']
+        teacher_id = self.kwargs['teacher_id']
+        student = models.Student.objects.get(pk=student_id)
+        teacher = models.Teacher.objects.get(pk=teacher_id)
+        return models.StudentAssignment.objects.filter(student=student,teacher = teacher)
