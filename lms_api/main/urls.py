@@ -27,6 +27,7 @@ urlpatterns = [
     path('my-assignments/<int:student_id>', views.MyAssignmentList.as_view()),
     path('update-assignment/<int:pk>', views.UpdateAssignment.as_view()),
     path('student/dashboard/<int:pk>', views.StudentDashboard.as_view()),
+    path('student/<int:pk>/', views.StudentDetail.as_view()),
 
     # Category
     path('category/', views.CategoryList.as_view()),
