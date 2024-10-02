@@ -42,7 +42,7 @@ export default function Register() {
             });
 
             if (response.status === 201) {
-                console.log(response);
+                // console.log(response);
                 setStudentData({
                     'full_name': '',
                     'email': '',
