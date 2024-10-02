@@ -18,7 +18,7 @@ export default function StudentAssignments() {
             try {
                 const assignments = await axios.get(baseUrl + `/my-assignments/${student_id}`);
                 if (assignments) {
-                    console.log("data : ", assignments);
+                    // console.log("data : ", assignments);
                     setAssignmentData(assignments.data);
                 }
             }
