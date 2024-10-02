@@ -17,7 +17,7 @@ export default function UserList() {
             try {
                 const students = await axios.get(baseUrl + `/fetch-all-enrolled-students/${teacher_id}`);
                 if (students) {
-                    console.log("data : ", students);
+                    // console.log("data : ", students);
                     setStudentData(students.data);
                 }
             }
