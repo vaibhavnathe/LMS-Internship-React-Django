@@ -64,7 +64,7 @@ export default function UserList() {
                                                     <td> {data.student.username}</td>
                                                     <td>{data.student.interested_categories}</td>
                                                     <td>
-                                                        <Link to="#" className='btn btn-sm btn-warning'>Assignments</Link>
+                                                        <Link to={`/show-assignment/${teacher_id}/${data.student.id}`}  className='btn btn-sm btn-warning'>Assignments</Link>
                                                         <Link to={`/add-assignment/${teacher_id}/${data.student.id}`} className='btn btn-sm btn-success ms-2'>Add Assignment</Link>
                                                     </td>
                                                 </tr>
