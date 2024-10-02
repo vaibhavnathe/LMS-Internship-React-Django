@@ -56,7 +56,6 @@ export const CourseChapters = () => {
                     try {
                         const chapters = await axios.get(baseUrl + `/course-chapters/${course_id}`);
                         if (chapters) {
-        
                             setChapterData(chapters.data);
                             setTotalResult(chapters.data.length);
                         }
@@ -64,7 +63,6 @@ export const CourseChapters = () => {
                     catch (error) {
                         console.log(error);
                     }
-                    
                 }
 
             }
@@ -104,8 +102,11 @@ export const CourseChapters = () => {
                                                 <tr key={index}>
                                                     <td><Link to={`/edit-chapter/${chapter.id}`}>{chapter.title}</Link></td>
                                                     <td>
-                                                        <video controls width={200} height={200} />
-                                                        <source src={chapter.video} type='video/webm' />
+                                                        <video controls width={200} height={200} >
+                                                            <source src={chapter.video} type='video/webm' />
+                                                            <source src={chapter.video} type='video/mp4' />
+                                                            Sorry, yoour browser doesn't support embedded videos
+                                                        </video>
                                                     </td>
                                                     <td>{chapter.remarks}</td>
                                                     <td>
