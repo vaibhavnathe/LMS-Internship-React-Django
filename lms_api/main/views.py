@@ -289,3 +289,7 @@ class UpdateAssignment (generics.RetrieveUpdateDestroyAPIView):
     queryset = models.StudentAssignment.objects.all()
     serializer_class = StudentAssignmentSerializer
     # permission_classes = [permissions.IsAuthenticated]
+
+class StudentDetail (generics.RetrieveUpdateDestroyAPIView):
+    queryset = models.Student.objects.all()
+    serializer_class = StudentSerializer
