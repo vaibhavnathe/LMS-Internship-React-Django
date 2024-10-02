@@ -24,6 +24,11 @@ class StudentSerializer(serializers.ModelSerializer):
         fields=['id','full_name', 'email', 'username', 'password', 'interested_categories']
         # depth=1
 
+class StudentDashboardSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=models.Student
+        fields=['enrolled_courses','favourite_courses','complete_assignments', 'pending_assignments']
+
 
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
