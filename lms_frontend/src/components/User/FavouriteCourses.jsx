@@ -19,7 +19,7 @@ export default function FavouriteCourses() {
             try {
                 const courses = await axios.get(baseUrl + `/fetch-favourite-courses/${studentId}`);
                 if (courses) {
-                    console.log("data : ", courses); 
+                    // console.log("data : ", courses); 
                     setCourseData(courses.data);
                 }
             }
