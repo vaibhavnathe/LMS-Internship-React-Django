@@ -10,7 +10,7 @@ export default function TeacherSidebar() {
             
             <div className="list-group list-group-flush">
 
-                <Link to='/teacher-dashboard' className="list-group-item list-group-item-action">Dashboard</Link>
+                <Link to='/teacher-dashboard' className="list-group-item list-group-item-action"><strong>Dashboard</strong></Link>
                 <Link to='/teacher-courses' className="list-group-item list-group-item-action">My Courses</Link>
                 <Link to='/add-course' className="list-group-item list-group-item-action">Add Courses</Link>
                 <Link to='/teacher-users' className="list-group-item list-group-item-action">My Users</Link>
