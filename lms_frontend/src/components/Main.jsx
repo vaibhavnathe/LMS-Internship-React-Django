@@ -17,6 +17,7 @@ import RecommendedCourses from './User/RecommendedCourses'
 import ProfileSetting from './User/ProfileSetting'
 import ChangePassword from './User/ChangePassword'
 import { StudentLogout } from './User/StudentLogout'
+import StudentAssignments from './User/StudentAssignments'
 
 // Teachers
 import TeacherLogin from './Teacher/TeacherLogin'
@@ -45,6 +46,7 @@ import { ShowAssignment } from './Teacher/ShowAssignment'
 
 
 
+
 export const Main = () => {
   return (
 
@@ -67,6 +69,7 @@ export const Main = () => {
         <Route path='/recommended-courses' element={<RecommendedCourses/>}/>
         <Route path='/profile-setting' element={<ProfileSetting/>}/>
         <Route path='/change-password' element={<ChangePassword/>}/>
+        <Route path='/my-assignments' element={<StudentAssignments/>}/>
 
         {/* Teachers */}
         <Route path='/teacher-login' element={<TeacherLogin/>}/>
