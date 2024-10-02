@@ -53,6 +53,7 @@ export const ShowAssignment = () => {
                                 <thead>
                                     <tr>
                                         <th>Title</th>
+                                        <th> Student Status</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -61,6 +62,13 @@ export const ShowAssignment = () => {
                                             assignmentData.map((assignment, index) => (
                                                 <tr key={index}>
                                                     <td>{assignment.title}</td>
+                                                    <td>
+                                                    {
+                                                        assignment.student_status == true
+                                                            ? ((<span className='badge bg-success'>Completed</span>))
+                                                            : ((<span className='badge bg-warning'>Pending</span>))
+                                                    }
+                                                    </td>
                                                 </tr>
                                             ))
                                         )
