@@ -21,7 +21,7 @@ class TeacherDashboardSerializer(serializers.ModelSerializer):
 class StudentSerializer(serializers.ModelSerializer):
     class Meta:
         model=models.Student
-        fields=['id','full_name', 'email', 'username', 'password', 'interested_categories']
+        fields=['id','full_name', 'email', 'username', 'password', 'interested_categories', 'profile_img']
         # depth=1
 
 class StudentDashboardSerializer(serializers.ModelSerializer):
