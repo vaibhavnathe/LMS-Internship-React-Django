@@ -19,7 +19,7 @@ export default function MyCourses() {
             try {
                 const courses = await axios.get(baseUrl + `/fetch-enrolled-courses/${studentId}`);
                 if (courses) {
-                    console.log("data : ", courses);
+                    // console.log("data : ", courses);
                     setCourseData(courses.data);
                 }
             }
