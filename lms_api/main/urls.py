@@ -30,6 +30,7 @@ urlpatterns = [
     path('update-assignment/<int:pk>', views.UpdateAssignment.as_view()),
     path('student/dashboard/<int:pk>', views.StudentDashboard.as_view()),
     path('student/<int:pk>/', views.StudentDetail.as_view()),
+    path('student/change-password/<int:student_id>/', views.student_change_password),
 
     # Category
     path('category/', views.CategoryList.as_view()),
