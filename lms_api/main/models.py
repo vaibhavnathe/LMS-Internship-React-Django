@@ -181,8 +181,21 @@ class StudentAssignment(models.Model):
     add_time = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        verbose_name_plural="9. Student Assignements"
+        verbose_name_plural="9. Student Assignments"
 
 
     def __str__(self):
         return f"{self.title}"
+
+
+# Notifications Model
+class Notification(models.Model):
+    teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE, null=True)
+    student = models.ForeignKey(Student, on_delete=models.CASCADE, null=True)
+    notif_for = models.CharField(max_length=200, verbose_name = "Notification For")
+    notif_subject = models.CharField(max_length=200, verbose_name = "Notification Subject", null=True)
+    notif_created_time = models.DateTimeField(auto_now_add=True) 
+    notifiread_status = models.BooleanField(default=False, verbose_name = "Notification Status")
+
+    class Meta:
+        verbose_name_plural="10. Notifications"
