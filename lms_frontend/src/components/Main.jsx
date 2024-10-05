@@ -44,7 +44,8 @@ import { TeacherSkillCourses } from './TeacherSkillCourses'
 import { AddAssignment } from './Teacher/AddAssignment'
 import { ShowAssignment } from './Teacher/ShowAssignment'
 
-
+// Quiz
+import AddQuiz from './Teacher/AddQuiz'
 
 
 export const Main = () => {
@@ -96,6 +97,9 @@ export const Main = () => {
         <Route path='/category/:category_slug' element={<CategoryCourses/>}/>
         <Route path='/all-chapters/:course_id' element={<CourseChapters/>}/>
         <Route path='/edit-chapter/:chapter_id' element={<EditChapter/>}/>
+
+        {/* Quiz */}
+        <Route path='/add-quiz' element={<AddQuiz/>}/>
        
       </Switch>
 
