@@ -129,6 +129,27 @@ class CourseDetailView (generics.RetrieveAPIView):
 
 
 
+# Teacher Change Password
+@csrf_exempt
+def teacher_change_password(request, teacher_id):
+    if request.method == 'POST':
+        password = request.POST.get('password', None)
+
+        if not password:
+            return JsonResponse({'bool': False, 'error': 'Password not provided'})
+
+        try:
+            teacherData = models.Teacher.objects.get(id=teacher_id)
+        except models.Teacher.DoesNotExist:
+            return JsonResponse({'bool': False, 'error': 'Teacher not found'})
+
+        # Update password (consider using a hashed password)
+        teacherData.password = password
+        teacherData.save()
+        return JsonResponse({'bool': True})
+
+    return JsonResponse({'bool': False, 'error': 'Invalid request method'})
+
 
 # ******* Student Data ********* 
 
