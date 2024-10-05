@@ -6,7 +6,7 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.response import Response
 from rest_framework import generics
 from rest_framework import permissions
-from .serializers import TeacherSerializer, CategorySerializer, CourseSerializer, ChapterSerializer, StudentSerializer, StudentCourseEnrollSerializer, CourseRatingSerializer, TeacherDashboardSerializer,StudentFavouriteCourseSerializer,StudentAssignmentSerializer, StudentDashboardSerializer
+from .serializers import TeacherSerializer, CategorySerializer, CourseSerializer, ChapterSerializer, StudentSerializer, StudentCourseEnrollSerializer, CourseRatingSerializer, TeacherDashboardSerializer,StudentFavouriteCourseSerializer,StudentAssignmentSerializer, StudentDashboardSerializer, NotificationSerializer
 from django.http import JsonResponse
 from . import models
 from django.db.models import Q
@@ -328,6 +328,8 @@ class MyAssignmentList (generics.ListCreateAPIView):
     def get_queryset(self):
         student_id = self.kwargs['student_id']
         student = models.Student.objects.get(pk=student_id)
+        # Update Notifivations
+        models.Notification.objects.filter(student=student, notif_for='student', notif_subject='assignment').update(notifiread_status=True)
         return models.StudentAssignment.objects.filter(student=student)
 
 class UpdateAssignment (generics.RetrieveUpdateDestroyAPIView):
@@ -338,3 +340,14 @@ class UpdateAssignment (generics.RetrieveUpdateDestroyAPIView):
 class StudentDetail (generics.RetrieveUpdateDestroyAPIView):
     queryset = models.Student.objects.all()
     serializer_class = StudentSerializer
+
+
+# notification
+class NotificationList(generics.ListCreateAPIView):
+    queryset=models.Notification.objects.all()
+    serializer_class=NotificationSerializer
+
+    def get_queryset(self):
+        student_id=self.kwargs['student_id']
+        student = models.Student.objects.get(pk=student_id)
+        return models.Notification.objects.filter(student=student, notif_for='student', notif_subject='assignment', notifiread_status=False)
