@@ -55,4 +55,9 @@ urlpatterns = [
 
     # Course Rating
      path('course-rating/', views.CourseRatingList.as_view()),
+
+    #  Notification
+    path('student/fetch-all-notifications/<int:student_id>', views.NotificationList.as_view()),
+    path('save-notification/', views.NotificationList.as_view()),
+
 ]
