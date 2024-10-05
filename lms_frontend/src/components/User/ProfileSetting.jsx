@@ -30,7 +30,7 @@ export default function ProfileSetting() {
             try {
                 const student = await axios.get(baseUrl + `/student/${studentId}`);
                 if (student) {
-                    console.log(student.data);
+                    // console.log(student.data);
                     setStudentData({
                         full_name: student.data.full_name,
                         email: student.data.email,
