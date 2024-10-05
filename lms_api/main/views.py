@@ -6,7 +6,7 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.response import Response
 from rest_framework import generics
 from rest_framework import permissions
-from .serializers import TeacherSerializer, CategorySerializer, CourseSerializer, ChapterSerializer, StudentSerializer, StudentCourseEnrollSerializer, CourseRatingSerializer, TeacherDashboardSerializer,StudentFavouriteCourseSerializer,StudentAssignmentSerializer, StudentDashboardSerializer, NotificationSerializer
+from .serializers import TeacherSerializer, CategorySerializer, CourseSerializer, ChapterSerializer, StudentSerializer,StudentCourseEnrollSerializer, CourseRatingSerializer, TeacherDashboardSerializer,StudentFavouriteCourseSerializer,StudentAssignmentSerializer, StudentDashboardSerializer, NotificationSerializer,QuizSerializer
 from django.http import JsonResponse
 from . import models
 from django.db.models import Q
@@ -351,3 +351,9 @@ class NotificationList(generics.ListCreateAPIView):
         student_id=self.kwargs['student_id']
         student = models.Student.objects.get(pk=student_id)
         return models.Notification.objects.filter(student=student, notif_for='student', notif_subject='assignment', notifiread_status=False)
+
+
+# Quiz
+class QuizList (generics.ListCreateAPIView):
+    serializer_class = QuizSerializer
+    queryset = models.Quiz.objects.all()
