@@ -99,7 +99,7 @@ export default function ProfileSetting() {
                         showConfirmButton: false
                     });
                 }
-                // window.location.reload();
+                window.location.reload();
             })
             
 
