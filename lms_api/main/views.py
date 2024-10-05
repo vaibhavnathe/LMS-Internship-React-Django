@@ -180,6 +180,30 @@ def student_login(request):
         return JsonResponse({'bool':False})
 
 
+# Student Change Password
+@csrf_exempt
+def student_change_password(request, student_id):
+    if request.method == 'POST':
+        password = request.POST.get('password', None)
+
+        if not password:
+            return JsonResponse({'bool': False, 'error': 'Password not provided'})
+
+        try:
+            studentData = models.Student.objects.get(id=student_id)
+        except models.Student.DoesNotExist:
+            return JsonResponse({'bool': False, 'error': 'Student not found'})
+
+        # Update password (consider using a hashed password)
+        studentData.password = password
+        studentData.save()
+        return JsonResponse({'bool': True})
+
+    return JsonResponse({'bool': False, 'error': 'Invalid request method'})
+
+
+
+
 # StudentCourseEnrollment View
 class StudentCourseEnrollmentList (generics.ListCreateAPIView):
     queryset = models.StudentCourseEnrollment.objects.all()
