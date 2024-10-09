@@ -121,12 +121,6 @@ class ChapterDetailView (generics.RetrieveUpdateDestroyAPIView):
     queryset = models.Chapter.objects.all()
     serializer_class = ChapterSerializer
 
-    def get_serializer_context(self):
-        context = super().get_serializer_context()
-        context['chapter_duration']=self.chapter_duration
-        print('contex ..............');
-        print(context)
-        return context
 
 
 # Specific Course detail View
@@ -388,7 +382,7 @@ class QuizDetailView (generics.RetrieveUpdateDestroyAPIView):
 
 
 # Specific Course Chapter List
-class QuizQuestionsList (generics.ListAPIView):
+class QuizQuestionsList (generics.ListCreateAPIView):
     serializer_class = QuestionSerializer
 
     def get_queryset(self):
