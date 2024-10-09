@@ -47,6 +47,7 @@ import { ShowAssignment } from './Teacher/ShowAssignment'
 // Quiz
 import AddQuiz from './Teacher/AddQuiz'
 import AllQuiz from './Teacher/AllQuiz'
+import EditQuiz from './Teacher/EditQuiz'
 
 
 export const Main = () => {
@@ -102,6 +103,7 @@ export const Main = () => {
         {/* Quiz */}
         <Route path='/add-quiz' element={<AddQuiz/>}/>
         <Route path='/quiz' element={<AllQuiz/>}/>
+        <Route path='/edit-quiz/:quiz_id' element={<EditQuiz/>}/>
        
       </Switch>
 
