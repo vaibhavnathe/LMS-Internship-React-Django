@@ -96,7 +96,7 @@ export default function AllQuiz() {
                                             quizData.map((quiz, index) => (
                                                 <tr key={index}>
                                                     <td>
-                                                        <Link to={`/all-quetions/${quiz.id}`}>{quiz.title}</Link>
+                                                        <Link to={`/all-questions/${quiz.id}`}>{quiz.title}</Link>
                                                        
                                                     </td>
                                                     <td><Link to={`#`}> 123 </Link></td>
