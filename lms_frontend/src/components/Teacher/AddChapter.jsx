@@ -48,7 +48,7 @@ export const AddChapter = () => {
                 }
             })
 
-            window.location.href = '/add-chapter/1';
+            window.location.href = '/all-chapters/'+course_id;
 
             console.log(response.data);
         }
