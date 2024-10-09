@@ -357,3 +357,13 @@ class NotificationList(generics.ListCreateAPIView):
 class QuizList (generics.ListCreateAPIView):
     serializer_class = QuizSerializer
     queryset = models.Quiz.objects.all()
+
+
+#Teacher QuizList
+class TeacherQuizList (generics.ListAPIView):
+    serializer_class = QuizSerializer
+    
+    def get_queryset(self):
+        teacher_id = self.kwargs['teacher_id']
+        teacher = models.Teacher.objects.get(pk=teacher_id)
+        return models.Quiz.objects.filter(teacher = teacher)
