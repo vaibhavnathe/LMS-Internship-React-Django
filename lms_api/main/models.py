@@ -212,9 +212,9 @@ class Quiz(models.Model):
         verbose_name_plural="11. Quiz"
 
 # Quiz Quetions Model
-class QuizQuetions(models.Model):
-    Quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE, null=True)
-    quetions = models.CharField(max_length=200)
+class QuizQuestions(models.Model):
+    quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE, null=True)
+    question = models.CharField(max_length=200)
     ans1 = models.CharField(max_length=200)
     ans2 = models.CharField(max_length=200)
     ans3 = models.CharField(max_length=200)
