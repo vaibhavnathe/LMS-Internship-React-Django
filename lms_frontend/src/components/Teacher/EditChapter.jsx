@@ -40,7 +40,7 @@ export const EditChapter = () => {
         event.preventDefault(); // Prevent default form submission
 
         const formData = new FormData();
-        formData.append('course', chapterData.course);
+        formData.append('course', chapterData.course.id);
         formData.append('title', chapterData.title);
         formData.append('description', chapterData.description);
         if (chapterData.video !== '') {
@@ -67,7 +67,7 @@ export const EditChapter = () => {
                 });
             }
 
-            // window.location.href = '/add-chapter/1';
+            window.location.href = '/all-chapters/'+chapterData.course.id;
 
             console.log(response);
         }
