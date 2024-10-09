@@ -103,7 +103,7 @@ export default function AllQuiz() {
                                                     <td>
                                                        
                                                         <Link to={`/edit-quiz/${quiz.id}`}><button className='btn btn-info btn-md  '>Edit</button></Link>
-                                                        <Link to={`/add-quiz-quetion/${quiz.id}`}><button className='btn btn-success btn-md  ms-2 '>Add Quetion</button></Link>
+                                                        <Link to={`/add-quiz-question/${quiz.id}`}><button className='btn btn-success btn-md  ms-2 '>Add Quetion</button></Link>
                                                         <button onClick={() => handleDeleteClick(quiz.id)} className='btn btn-danger btn-md ms-2'>Delete</button>
 
                                                     </td>
