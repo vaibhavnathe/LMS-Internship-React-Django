@@ -46,6 +46,11 @@ export default function AddQuiz() {
                         timerProgressBar: true,
                         showConfirmButton: false
                     });
+
+                    setQuizData({
+                        title:'',
+                        detail:''
+                    });
                 }
             }
             
