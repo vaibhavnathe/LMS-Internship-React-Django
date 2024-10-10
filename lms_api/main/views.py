@@ -6,7 +6,7 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.response import Response
 from rest_framework import generics
 from rest_framework import permissions
-from .serializers import TeacherSerializer, CategorySerializer, CourseSerializer, ChapterSerializer, StudentSerializer,StudentCourseEnrollSerializer, CourseRatingSerializer, TeacherDashboardSerializer,StudentFavouriteCourseSerializer,StudentAssignmentSerializer, StudentDashboardSerializer, NotificationSerializer,QuizSerializer, QuestionSerializer,CourseQuizSerializer
+from .serializers import TeacherSerializer, CategorySerializer, CourseSerializer, ChapterSerializer, StudentSerializer,StudentCourseEnrollSerializer, CourseRatingSerializer, TeacherDashboardSerializer,StudentFavouriteCourseSerializer,StudentAssignmentSerializer, StudentDashboardSerializer, NotificationSerializer,QuizSerializer, QuestionSerializer,CourseQuizSerializer, AttemptQuizSerializer
 from django.http import JsonResponse
 from . import models
 from django.db.models import Q
@@ -388,7 +388,15 @@ class QuizQuestionsList (generics.ListCreateAPIView):
     def get_queryset(self):
         quiz_id = self.kwargs['quiz_id']
         quiz = models.Quiz.objects.get(pk=quiz_id)
-        return models.QuizQuestions.objects.filter(quiz = quiz)
+        limit = self.kwargs.get('limit', None)
+
+        if limit is not None:
+            return models.QuizQuestions.objects.filter(quiz = quiz).order_by('id')[:1]
+        elif 'question_id' in self.kwargs:
+            current_question = self.kwargs['question_id']
+            return models.QuizQuestions.objects.filter(quiz = quiz,id__gt=current_question).order_by('id')[:1]
+        else:
+            return models.QuizQuestions.objects.filter(quiz = quiz)
 
 # StudentCourseEnrollment View
 class CourseQuizList (generics.ListCreateAPIView):
@@ -410,3 +418,8 @@ def fetch_quiz_assign_status(request, quiz_id, course_id):
         return JsonResponse({'bool': True})
     else:
         return JsonResponse({'bool': False})
+
+# StudentCourseEnrollment View
+class AttemptQuizList (generics.ListCreateAPIView):
+    queryset = models.AttemptQuiz.objects.all()
+    serializer_class = AttemptQuizSerializer
