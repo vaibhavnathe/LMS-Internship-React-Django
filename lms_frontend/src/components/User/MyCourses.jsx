@@ -47,6 +47,7 @@ export default function MyCourses() {
                                     <tr>
                                         <th>Name</th>
                                         <th>Created By</th>
+                                        <th>Quiz</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -56,6 +57,7 @@ export default function MyCourses() {
                                                 <tr key={index}>
                                                     <td><Link to={`/detail/${data.course.id}`}>{data.course.title}</Link></td>
                                                     <td><Link to={`/teacher-detail/${data.course.teacher.id}`}> {data.course.teacher.full_name}</Link></td>
+                                                    <td><Link to={`/course-quiz/${data.course.id}`} className='btn btn-sm btn-warning'>Quiz List </Link></td>
                                                 </tr>
                                             ))
                                         )
