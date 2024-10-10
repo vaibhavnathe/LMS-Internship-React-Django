@@ -10,26 +10,59 @@ export default function TakeQuiz() {
 
     const studentId = localStorage.getItem('studentId');
 
-    const [courseData, setCourseData] = useState([]);
+    const { quiz_id } = useParams();
+
+    const [questionData, setQuestionData] = useState([]);
 
     // Fetch all the courses
     useEffect(() => {
-        const fetchAllCourses = async () => {
+        const getAllQuetions = async () => {
 
             try {
-                const courses = await axios.get(baseUrl + `/fetch-enrolled-courses/${studentId}`);
-                if (courses) {
-                    // console.log("data : ", courses);
-                    setCourseData(courses.data);
+                const questions = await axios.get(baseUrl + `/quiz-questions/${quiz_id}/1`);
+                if (questions) {
+                    setQuestionData(questions.data);
                 }
             }
             catch (error) {
                 console.log(error);
             }
         }
-        fetchAllCourses();
+        getAllQuetions();
 
     }, [])
+
+    const submitAnswer = async(question_id, right_ans) => {
+
+        const formData = new FormData();
+        formData.append('student', studentId);
+        formData.append('question', question_id);
+        formData.append('right_ans', right_ans);
+
+        try {
+            const response = await axios.post(baseUrl + '/attempt-quiz/', formData, {
+                headers: {
+                    'content-type': 'multipart/form-data'
+                }
+            })
+
+            if (response.status == 200 || response.status == 201) {
+                try {
+                    const questions = await axios.get(baseUrl + `/quiz-questions/${quiz_id}/next-question/${question_id}`);
+                    if (questions) {
+                        setQuestionData(questions.data);
+                    }
+                }
+                catch (error) {
+                    console.log(error);
+                }
+            }
+
+        }
+        catch (error) {
+            console.log(error);
+        }
+    }
 
     return (
 
@@ -39,49 +72,39 @@ export default function TakeQuiz() {
                     <Sidebar />
                 </aside>
                 <section className='col-md-9'>
-                
-                    <div className="card">
-                        <h5 className='card-header'>Question Title</h5>
-                        <div className="card-body">
-                            <table className="table table-bordered">
-                               
-                                <tbody>
+
+                    {
+                        (questionData.length > 0) && (
+                            questionData.map((question, index) => (
+                                <div className="card" key={index}>
+                                    <h5 className='card-header'>{question.question}</h5>
+                                    <div className="card-body">
+                                        <table className="table table-bordered">
+
+                                            <tbody>
+
+                                                <tr>
+                                                    <td><button onClick={() => submitAnswer(question.id, question.ans1)} className='btn btn-outline-secondary '>{question.ans1}</button></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><button onClick={() => submitAnswer(question.id, question.ans2)} className='btn btn-outline-secondary '>{question.ans2}</button></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><button onClick={() => submitAnswer(question.id, question.ans3)} className='btn btn-outline-secondary '>{question.ans3}</button></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><button onClick={() => submitAnswer(question.id, question.ans4)} className='btn btn-outline-secondary '>{question.ans4}</button></td>
+                                                </tr>
+
+                                            </tbody>
+                                        </table>
+
+                                    </div>
+                                </div>
+                            )))
+                    }
 
 
-                                    <tr>
-                                        <td>
-                                            <input type="radio" />
-                                        </td>
-                                        <th>Option 1</th>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <input type="radio" />
-                                        </td>
-                                        <th>Option 2</th>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <input type="radio" />
-                                        </td>
-                                        <th>Option 3</th>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <input type="radio" />
-                                        </td>
-                                        <th>Option 4</th>
-                                    </tr>
-
-
-
-                                </tbody>
-                            </table>
-                            <button className='btn btn-dark'>Skip</button>
-                            <button className='btn btn-primary ms-2'>Submit</button>
-                            
-                        </div>
-                    </div>
                 </section>
             </div>
         </div>
