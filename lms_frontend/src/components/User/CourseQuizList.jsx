@@ -56,7 +56,7 @@ export default function CourseQuizList() {
                                     {
                                         quizData.length > 0 &&
                                         quizData.map((data, index) => (
-                                            <tr>
+                                            <tr key={index}>
                                                 <td>
                                                     {data.quiz.title}
                                                 </td>
