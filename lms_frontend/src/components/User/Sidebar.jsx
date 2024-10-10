@@ -16,7 +16,7 @@ export default function Sidebar() {
             try{
                 const res = await axios.get(`${baseUrl}/student/fetch-all-notifications/${studentId}`);
                 if(res){
-                    console.log("res : ", res);
+                    // console.log("res : ", res);
                     setnotifData(res.data);
                 }
             }
