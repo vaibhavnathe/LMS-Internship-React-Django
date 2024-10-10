@@ -3,19 +3,23 @@ import { Link, useParams } from 'react-router-dom'
 import TeacherSidebar from './TeacherSidebar'
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
+import CheckQuizInCourse from './CheckQuizInCourse';
+
 
 const baseUrl = 'http://127.0.0.1:8000/api';
 
 export default function AssignQuiz() {
 
     const teacherId = localStorage.getItem('teacherId');
-    const {course_id} = useParams();
+    const { course_id } = useParams();
 
     const [quizData, setQuizData] = useState([]);
     const [courseData, setCourseData] = useState([]);
 
     useEffect(() => {
-        const getAllCourse = async () => {
+        const getAllQuizes = async () => {
 
             try {
                 const quizes = await axios.get(baseUrl + `/teacher-quiz/${teacherId}`);
@@ -27,7 +31,7 @@ export default function AssignQuiz() {
                 console.log(error);
             }
         }
-        getAllCourse();
+        getAllQuizes();
 
 
         const fetchCourseData = async () => {
@@ -47,41 +51,35 @@ export default function AssignQuiz() {
 
     }, [])
 
-    // Delete chapter data
+    //AssignQuiz Handler
     const assignQuiz = async (quiz_id) => {
-        const result = await Swal.fire({
-            title: 'Confirm',
-            text: 'Assign Quiz',
-            icon: 'info',
-            confirmButtonText: 'Continue',
-            showCancelButton: true
-        })
 
-        if (result.isConfirmed) {
-            try {
-                const res = await axios.delete(`${baseUrl}/quiz/${quiz_id}`);
+        const formData = new FormData();
+        formData.append('teacher', teacherId);
+        formData.append('course', course_id);
+        formData.append('quiz', quiz_id);
 
-                if (res) {
-                    Swal.fire("Success", "Data has been deleted!")
-                    try {
-                        const quizes = await axios.get(baseUrl + `/teacher-quiz/${teacherId}`);
-                        if (quizes) {
-                            setQuizData(quizes.data);
-                        }
-                    }
-                    catch (error) {
-                        console.log(error);
-                    }
+        try {
+            const response = await axios.post(baseUrl + '/quiz-assign-course/', formData, {
+                headers: {
+                    'content-type': 'multipart/form-data'
                 }
+            });
 
-            }
-            catch (error) {
-                Swal.fire("error", "Data has not been deleted!")
+            if (response.status == 200 || response.status == 201) {
+                toast.success("Quiz is Successfully assigned in the Course");
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1000); // Delay to ensure toast message is visible
+                
             }
 
         }
+        catch (error) {
+            toast.error("Something Went Wrong!");
+            console.log(error);
+        }
     }
-
 
     return (
 
@@ -111,14 +109,13 @@ export default function AssignQuiz() {
                                                 <tr key={index}>
                                                     <td>
                                                         <Link to={`/all-questions/${quiz.id}`}>{quiz.title}</Link>
-                                                       
+
                                                     </td>
                                                     <td>
-
-                                                        <button onClick={() => assignQuiz(quiz.id)} className='btn btn-success btn-md ms-2'>Assign Quiz</button>
-
+                                                        <CheckQuizInCourse quiz={quiz.id} course={course_id}/>
                                                     </td>
                                                 </tr>
+
                                             ))
                                         )
                                     }
