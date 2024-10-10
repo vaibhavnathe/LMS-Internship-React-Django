@@ -51,6 +51,8 @@ import EditQuiz from './Teacher/EditQuiz'
 import { QuizQuestions } from './Teacher/QuizQuestions'
 import { AddQuizQuestion } from './Teacher/AddQuizQuestion'
 import AssignQuiz from './Teacher/AssignQuiz'
+import CourseQuizList from './User/CourseQuizList'
+import TakeQuiz from './User/TakeQuiz'
 
 
 export const Main = () => {
@@ -103,14 +105,18 @@ export const Main = () => {
         <Route path='/all-chapters/:course_id' element={<CourseChapters/>}/>
         <Route path='/edit-chapter/:chapter_id' element={<EditChapter/>}/>
 
-        {/* Quiz */}
+        {/* Teacher Quiz Dashboard*/}
         <Route path='/add-quiz' element={<AddQuiz/>}/>
         <Route path='/quiz' element={<AllQuiz/>}/>
         <Route path='/edit-quiz/:quiz_id' element={<EditQuiz/>}/>
         <Route path='/all-questions/:quiz_id' element={<QuizQuestions/>}/>
         <Route path='/add-quiz-question/:quiz_id' element={<AddQuizQuestion/>}/>
         <Route path='/assign-quiz/:course_id' element={<AssignQuiz/>}/>
-       
+        
+       {/* Student Quiz Dashboard */}
+       <Route path='/course-quiz/:course_id' element={<CourseQuizList/>}/>
+       <Route path='/take-quiz/:quiz_id' element={<TakeQuiz/>}/>
+
       </Switch>
 
       <Footer/>
