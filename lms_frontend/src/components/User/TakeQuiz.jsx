@@ -36,6 +36,7 @@ export default function TakeQuiz() {
 
         const formData = new FormData();
         formData.append('student', studentId);
+        formData.append('quiz', quiz_id);
         formData.append('question', question_id);
         formData.append('right_ans', right_ans);
 
