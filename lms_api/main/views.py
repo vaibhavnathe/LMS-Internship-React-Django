@@ -81,6 +81,13 @@ class CourseList (generics.ListCreateAPIView):
                 query |= item
             qs=models.Course.objects.filter(query)
 
+        if 'searchString' in self.kwargs:
+            search=self.kwargs['searchString']
+            if search:
+                qs=models.Course.objects.filter( Q(title__icontains=search) | Q(techs__icontains=search)) 
+            else:
+                qs=models.Course.objects.all() 
+
         return qs
 
 
