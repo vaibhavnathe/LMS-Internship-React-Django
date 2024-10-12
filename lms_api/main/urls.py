@@ -43,7 +43,8 @@ urlpatterns = [
     path('course-chapters/<int:course_id>', views.CourseChapterList.as_view()),
     path('teacher-courses/<int:teacher_id>', views.TeacherCourseList.as_view()),
     path('teacher-course-detail/<int:pk>', views.TeacherCourseDetail.as_view()),
-     path('course-rating/', views.CourseRatingList.as_view()),
+    path('course-rating/', views.CourseRatingList.as_view()),
+    path('search-courses/<str:searchString>', views.CourseList.as_view()),
 
     #  Notification
     path('student/fetch-all-notifications/<int:student_id>', views.NotificationList.as_view()),
