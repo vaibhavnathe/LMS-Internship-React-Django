@@ -53,6 +53,7 @@ import { AddQuizQuestion } from './Teacher/AddQuizQuestion'
 import AssignQuiz from './Teacher/AssignQuiz'
 import CourseQuizList from './User/CourseQuizList'
 import TakeQuiz from './User/TakeQuiz'
+import Search from './Search'
 
 
 export const Main = () => {
@@ -78,6 +79,7 @@ export const Main = () => {
         <Route path='/profile-setting' element={<ProfileSetting/>}/>
         <Route path='/change-password' element={<ChangePassword/>}/>
         <Route path='/my-assignments' element={<StudentAssignments/>}/>
+        <Route path='/search/:searchString' element={<Search/>}/>
 
         {/* Teachers */}
         <Route path='/teacher-login' element={<TeacherLogin/>}/>
