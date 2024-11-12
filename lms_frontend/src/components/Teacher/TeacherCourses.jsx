@@ -69,6 +69,7 @@ export default function TeacherCourses() {
                                                     <td>
                                                        
                                                         <Link to={`/edit-course/${course.id}`}><button className='btn btn-info btn-md  '>Edit</button></Link>
+                                                        <Link to={`/study-material/${course.id}`}><button className='btn btn-primary btn-md ms-2 '>Study Material</button></Link>
                                                         <Link to={`/add-chapter/${course.id}`}><button className='btn btn-success btn-md  ms-2 '>Add Chapter</button></Link>
                                                         <Link to={`/assign-quiz/${course.id}`}><button className='btn btn-warning btn-md  ms-2 '>Assign Quiz</button></Link>
                                                         <button className='btn btn-danger btn-md ms-2'>Delete</button>
